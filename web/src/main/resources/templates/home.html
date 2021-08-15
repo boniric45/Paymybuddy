@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhml"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <title>Pay My Buddy </title>
+
+    <style>
+
+#content{
+	display: block;
+
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+
+  	width: 350px;
+  	height: 400px;
+  	border: 3px solid  #ccc;
+  	border-radius: 10px 10px 10px 10px;
+
+	}
+#img{
+	margin-top: 15px;
+	margin-left: 100px;
+}
+
+.form-group{
+	margin-top: 30px;
+	margin-left: 20px;
+	margin-right: 20px;
+	align-content: center;
+	display: flex;
+	justify-content: center;
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+	color: rgb(145, 145, 145);
+}
+
+/* Checkbox  */
+.form-check{
+		margin:30px;
+	}
+
+.form-check-label{
+	font-family: Comic sans, sans-serif; 
+	font-size:14px;
+	font-style: normal;
+	color: rgb(145, 145, 145);
+	margin-left: 3px;
+}
+
+/*  Button  */
+.btn-submit{
+	display: flex;
+	justify-content: center;
+	margin-top: 70px;
+
+}
+
+.btn-primary{
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+	padding-left: 40px;
+	padding-right: 40px;
+
+}
+
+    </style>
+</head>
+<body>
+
+<div id="content">
+
+    <div id="img">
+        <img src="/images/logoPaymybuddy.png" alt=Image/>
+    </div>
+
+
+    <form>
+        <div class="form-group">
+
+            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                   placeholder="&#x1F582   Email">
+
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" id="inputPassword" placeholder="&#10033   Password">
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+        </div>
+
+        <div class="btn-submit">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+
+    </form>
+
+</div>
+</div>
+
+
+</body>
+</html>

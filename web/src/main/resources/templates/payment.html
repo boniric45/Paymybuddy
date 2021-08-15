@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhml"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <title>Pay My Buddy </title>
+    <style>
+
+#img{
+	display: flex;
+	justify-content: flex-start;
+	margin-right: 360px;
+}
+
+.nav{
+	display: flex;
+	justify-content: flex-end;
+	margin-left: 0px;
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+}
+
+
+/*  Button  */
+.btn-submit{
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	height: 35px;
+}
+
+.btn-primary{
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+.btn-success{
+
+	font-family: Comic sans, sans-serif; 
+	font-size:14px;
+	font-weight: 600;
+	padding-left: 70px;
+	padding-right: 70px;
+}
+
+.path{
+	margin-top: 10px;
+	margin-left: 20px;
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+}
+
+.box-send-money{
+	width: 690px;
+	height: 150px;
+	margin-left: 150px;
+	background-color: rgb(245, 245, 245);
+}
+
+.send_money{
+	height: 100px;
+	margin-left: 40px;
+	margin-right: 380px;
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+}
+
+.form-select{
+margin-left: 100px;
+margin-right: 10px;
+margin-top: 65px;
+
+}
+
+.form-amount{
+	display: inline-block;
+	margin-right: 10px;
+	width: 150px;
+}
+
+.my-transactions{
+	margin-top: 10px;
+	margin-left: 160px;
+	margin-bottom: 10px;
+	font-family: Comic sans, sans-serif; 
+	font-size:16px;
+	font-weight: 600;
+	
+}
+
+.list-contact{
+		width: 690px;
+	border: 2px solid  #000;
+	margin-left: 155px;
+	margin-right: 380px;
+}
+
+    </style>
+
+
+</head>
+
+<body>
+
+<ul class="nav">
+
+    <div id="img">
+     <img src="logoPaymybuddy.png" width="140px" height="45px" alt=Image/>
+    </div>
+
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#">Home</a>
+
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Transfer</a>
+
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Profile</a>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#">Contact</a>
+  </li>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#">Log off</a>
+  </li>
+</ul>
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Transfer</a></li>
+
+      </ol>
+    </nav>
+  </div>
+</nav>
+
+        <div class="btn-submit">
+			<div class="send_money">
+	    	Send Money
+			</div>   
+        <button type="submit" class="btn btn-primary">Add Connection</button>
+        </div>
+
+
+        <div class="box-send-money">
+
+		<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+  		<option selected>Select A Connection </option>
+  		<option value="1">One</option>
+  		<option value="2">Two</option>
+  		<option value="3">Three</option>
+		</select>
+		
+		<div class="form-amount">
+  		<input type="number" id="typeNumber" class="form-control"  />
+		</div>
+
+		<button type="button" class="btn btn-success">Pay</button>
+	
+  		</div>
+
+			<div class="my-transactions">
+	    	My Transactions
+	    		</div> 
+		
+<div class="list-contact">
+  			
+<ul class="list-group">
+  <li class="list-group-item list-group-item-success">Connections            Description               Amount</li>
+  <li class="list-group-item">Dapibus ac facilisis in</li>
+  <li class="list-group-item">Morbi leo risus</li>
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <li class="list-group-item">Vestibulum at eros</li>
+</ul>
+
+  		</div>
+
+
+
+</body>
+</html>
