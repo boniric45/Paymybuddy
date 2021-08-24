@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhml"
->
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,7 +10,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
 
-    <title>Pay My Buddy </title>
+    <title> Pay My Buddy </title>
 
     <style>
 
@@ -29,7 +28,7 @@
 
 	}
 #img{
-	margin-top: 15px;
+	margin-top: 10px;
 	margin-left: 100px;
 }
 
@@ -40,7 +39,7 @@
 	align-content: center;
 	display: flex;
 	justify-content: center;
-	font-family: Comic sans, sans-serif; 
+	font-family: Comic sans, sans-serif;
 	font-size:16px;
 	font-weight: 600;
 	color: rgb(145, 145, 145);
@@ -52,7 +51,7 @@
 	}
 
 .form-check-label{
-	font-family: Comic sans, sans-serif; 
+	font-family: Comic sans, sans-serif;
 	font-size:14px;
 	font-style: normal;
 	color: rgb(145, 145, 145);
@@ -64,11 +63,10 @@
 	display: flex;
 	justify-content: center;
 	margin-top: 70px;
-
 }
 
 .btn-primary{
-	font-family: Comic sans, sans-serif; 
+	font-family: Comic sans, sans-serif;
 	font-size:16px;
 	font-weight: 600;
 	padding-left: 40px;
@@ -76,27 +74,30 @@
 
 }
 
+
+
     </style>
+
 </head>
 <body>
 
 <div id="content">
 
     <div id="img">
-        <img src="/images/logoPaymybuddy.png" alt=Image/>
+        <img src="/images/logoPaymybuddy.png" align="center" alt=Image/>
     </div>
 
 
-    <form>
+    <form method="post"
+          th:action="@{/login}" th:object="${userIt}">
+
         <div class="form-group">
-
-            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
-                   placeholder="&#x1F582   Email">
-
+            <input type="text" class="form-control"  name="username" aria-describedby="emailHelp"
+                   placeholder="&#x1F582   Email" required autofocus>
         </div>
 
         <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword" placeholder="&#10033   Password">
+            <input type="password" class="form-control" name="password" placeholder="&#10033   Password" required>
         </div>
 
         <div class="form-group form-check">
@@ -105,7 +106,11 @@
         </div>
 
         <div class="btn-submit">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button name="submit" type="submit" class="btn btn-primary">Login</button>
+        </div>
+
+        <div th:if="${param.error}">
+            <p align="center"  class="text-danger"></p>
         </div>
 
     </form>

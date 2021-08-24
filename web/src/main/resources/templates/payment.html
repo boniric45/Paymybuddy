@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhml"
->
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,10 +14,24 @@
     <title>Pay My Buddy </title>
     <style>
 
+.content{
+	display: block;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+
+	  width: 800px;
+  	height: 700px;
+  	border: 3px solid  #ccc;
+  	border-radius: 10px 10px 10px 10px;
+}
+
 #img{
+
 	display: flex;
 	justify-content: flex-start;
-	margin-right: 360px;
+	margin-left:1px;
+	margin-right: auto;
 }
 
 .nav{
@@ -34,12 +48,13 @@
 .btn-submit{
 	display: flex;
 	justify-content: center;
-	margin-top: 20px;
+	margin-top: 45px;
 	height: 35px;
 }
 
 .btn-primary{
 	font-family: Comic sans, sans-serif; 
+
 	font-size:16px;
 	font-weight: 600;
 	padding-left: 40px;
@@ -64,15 +79,19 @@
 }
 
 .box-send-money{
+	justify-content: center;
+	margin-left: 50px;
+	margin-top: 30px;
 	width: 690px;
 	height: 150px;
-	margin-left: 150px;
+
 	background-color: rgb(245, 245, 245);
 }
 
 .send_money{
 	height: 100px;
-	margin-left: 40px;
+	margin-top: 10px;
+	margin-left: 10px;
 	margin-right: 380px;
 	font-family: Comic sans, sans-serif; 
 	font-size:16px;
@@ -93,8 +112,8 @@ margin-top: 65px;
 }
 
 .my-transactions{
-	margin-top: 10px;
-	margin-left: 160px;
+	margin-top: 45px;
+	margin-left: 45px;
 	margin-bottom: 10px;
 	font-family: Comic sans, sans-serif; 
 	font-size:16px;
@@ -103,9 +122,11 @@ margin-top: 65px;
 }
 
 .list-contact{
-		width: 690px;
+
+	width: 690px;
+	height: 300px;
 	border: 2px solid  #000;
-	margin-left: 155px;
+	margin-left: 45px;
 	margin-right: 380px;
 }
 
@@ -119,11 +140,11 @@ margin-top: 65px;
 <ul class="nav">
 
     <div id="img">
-     <img src="logoPaymybuddy.png" width="140px" height="45px" alt=Image/>
+     <img src="/images/logoPaymybuddy.png" width="140px" height="45px"  alt=Image/>
     </div>
 
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Home</a>
+    <a class="nav-link active" aria-current="page" href="/login">Home</a>
 
   </li>
   <li class="nav-item">
@@ -138,7 +159,7 @@ margin-top: 65px;
   </li>
   </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Log off</a>
+    <a class="nav-link" href="/login">Log off</a>
   </li>
 </ul>
 
@@ -146,23 +167,22 @@ margin-top: 65px;
   <div class="container-fluid">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="/login">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Transfer</a></li>
 
       </ol>
     </nav>
   </div>
 </nav>
-
+<div class="content">
         <div class="btn-submit">
 			<div class="send_money">
 	    	Send Money
 			</div>   
-        <button type="submit" class="btn btn-primary">Add Connection</button>
+            <button type="submit" class="btn btn-primary">Add Connection</button>
         </div>
 
-
-        <div class="box-send-money">
+    <div class="box-send-money">
 
 		<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
   		<option selected>Select A Connection </option>
@@ -181,8 +201,8 @@ margin-top: 65px;
 
 			<div class="my-transactions">
 	    	My Transactions
-	    		</div> 
-		
+	    		</div>
+
 <div class="list-contact">
   			
 <ul class="list-group">
@@ -191,10 +211,13 @@ margin-top: 65px;
   <li class="list-group-item">Morbi leo risus</li>
   <li class="list-group-item">Porta ac consectetur ac</li>
   <li class="list-group-item">Vestibulum at eros</li>
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <li class="list-group-item">Vestibulum at eros</li>
 </ul>
 
   		</div>
 
+</div>
 
 
 </body>

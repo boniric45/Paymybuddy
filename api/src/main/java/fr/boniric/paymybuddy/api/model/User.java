@@ -1,16 +1,13 @@
 package fr.boniric.paymybuddy.api.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,10 +15,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "users_registration_date")
     private Date registrationDate;
+
+    @Column(name = "users_roles")
+    private String roles;
 
     @Column(name = "users_password")
     private String password;
@@ -42,7 +42,7 @@ public class User {
     private String city;
 
     @Column(name = "users_phone")
-    private int phone;
+    private String phone;
 
     @Column(name = "users_email")
     private String email;
@@ -56,17 +56,4 @@ public class User {
     @Column(name = "users_swift")
     private String swift;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 562048007;
-    }
 }
