@@ -3,6 +3,7 @@ package fr.boniric.paymybuddy.web.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.sql.DataSource;
 
@@ -34,7 +36,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-
         String[] staticResources = {
                 "/css/**",
                 "/images/**",
@@ -46,20 +47,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login").hasRole("USER").anyRequest().authenticated()
+                .antMatchers(HttpMethod.GET, "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/inscription").permitAll()
+                .antMatchers(HttpMethod.GET,"/contact").authenticated()
+                .antMatchers(HttpMethod.POST,"/contact").authenticated()
+                .antMatchers(HttpMethod.GET, "/transfer").authenticated()
+                .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
+                .antMatchers(HttpMethod.GET, "/username").authenticated() //Récupère l'identifiant
+                .antMatchers(HttpMethod.GET, "/addconnection").authenticated()
+                .antMatchers(HttpMethod.POST, "/addconnection").authenticated()
+                .antMatchers(HttpMethod.GET, "/pay").authenticated()
+                .antMatchers(HttpMethod.POST, "/pay").authenticated()
+                .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .and()
                 .formLogin()//connexion par formulaire autorisé
                 .usernameParameter("username")//champ formulaire
                 .passwordParameter("password")
                 .loginPage("/login").permitAll() // formulaire de login personnalisé
-                .failureUrl("/bad").permitAll()// si ko renvoi bad
-                .defaultSuccessUrl("/payment")// si ok renvoi payment
+                .failureUrl("/bad")// si ko renvoi bad
+                .defaultSuccessUrl("/transfer")// si ok renvoi payment
                 .and()
-                .csrf().disable();//champ formulaire
+                .csrf().disable();//Sécurité
 
     }
 
-    //Authorise les resources
+    //Authorize ressources
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -71,5 +83,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedMethods("*");
+    }
+
 
 }

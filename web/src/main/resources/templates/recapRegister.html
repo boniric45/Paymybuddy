@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <title>PayMyBuddy - Recap</title>
+
+    <style>
+
+     .content{
+	display: block;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+
+	width: 200px;
+  	height: 40px;
+
+}
+
+#img{
+	display: flex;
+	justify-content: center;
+	margin-top:10px;
+	margin-left:1px;
+	margin-right: auto;
+}
+
+.textInfo{
+
+    display:flex;
+    justify-content:center;
+	font-family: Comic sans, sans-serif;
+	font-size:14px;
+	font-weight: 600;
+}
+
+.btn{
+	display: flex;
+	justify-content: center;
+	padding-left: 40px;
+	padding-right: 40px;
+
+}
+    </style>
+
+
+</head>
+<body>
+
+<div id="img"><img src="/images/logoPaymybuddy.png" alt=Image/></div>
+
+
+<div class="content">
+<div class="textInfo"  th:utext="${varInfo}"></div>
+</div>
+
+<div class="btn">
+    <a name="submit" href="/login" type="submit" class="btn btn-primary">Login</a>
+</div>
+
+</body>
+
+</html>

@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="7">
+          <list size="16">
             <item index="0" class="java.lang.String" itemvalue="xsi:schemalocation" />
             <item index="1" class="java.lang.String" itemvalue="th:field" />
             <item index="2" class="java.lang.String" itemvalue="th:action" />
@@ -12,6 +12,15 @@
             <item index="4" class="java.lang.String" itemvalue="th:name" />
             <item index="5" class="java.lang.String" itemvalue="th:value" />
             <item index="6" class="java.lang.String" itemvalue="th:if" />
+            <item index="7" class="java.lang.String" itemvalue="href" />
+            <item index="8" class="java.lang.String" itemvalue="modelattribute" />
+            <item index="9" class="java.lang.String" itemvalue="sec:authorize" />
+            <item index="10" class="java.lang.String" itemvalue="sec:authentication" />
+            <item index="11" class="java.lang.String" itemvalue="name" />
+            <item index="12" class="java.lang.String" itemvalue="type:t" />
+            <item index="13" class="java.lang.String" itemvalue="th:utext" />
+            <item index="14" class="java.lang.String" itemvalue="th:checked" />
+            <item index="15" class="java.lang.String" itemvalue="img" />
           </list>
         </value>
       </option>
@@ -20,7 +29,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="9">
+          <list size="10">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -30,6 +39,7 @@
             <item index="6" class="java.lang.String" itemvalue="form" />
             <item index="7" class="java.lang.String" itemvalue="input" />
             <item index="8" class="java.lang.String" itemvalue="meta" />
+            <item index="9" class="java.lang.String" itemvalue="div" />
           </list>
         </value>
       </option>

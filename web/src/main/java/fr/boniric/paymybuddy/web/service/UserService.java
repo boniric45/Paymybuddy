@@ -19,7 +19,13 @@ public class UserService {
         return userProxy.getUserByEmail(email);
     }
 
-    public Iterable<User> getUserAll() { return userProxy.getUserAll();}
+//    public Iterable<User> getUserAll() { return userProxy.getUserAll();}
 
 
+    public User saveUser(User user) {
+        User savedUser;
+        savedUser = userProxy.createUser(user);
+
+        return savedUser;
+    }
 }

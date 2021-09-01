@@ -20,9 +20,9 @@ public class Contact {
 
     @Id
     @Column(name = "contact_id")
-    private Long contactId;
+    private Integer contactId;
 
     @Column(name = "users_id")
-    private Long usersId;
+    private Integer usersId;
 
 }

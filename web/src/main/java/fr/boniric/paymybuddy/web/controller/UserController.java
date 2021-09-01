@@ -1,29 +1,107 @@
 package fr.boniric.paymybuddy.web.controller;
 
+import fr.boniric.paymybuddy.web.config.SpringSecurityConfig;
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.service.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Data
 @Controller
 public class UserController {
 
+    public String EMAILUSER;
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/")
-    public String home(Model model) {
-        return "login";
+    public String home() {
+        return "/login";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
-        return "login";
+    public String login() {
+        return "/login";
     }
+
+    //Create
+    @GetMapping("/inscription")
+    public String inscriptionPage(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "/inscription";
+    }
+
+    @PostMapping(value = "/user")
+    public ModelAndView saveUser(User user) {
+        //Encode Password
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        System.out.println(user);
+        //save user
+        userService.saveUser(user);
+
+        //TODO existe déja a faire
+        return new ModelAndView("redirect:/recapRegister");
+    }
+
+    @GetMapping("/transfer")
+    public String success(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        EMAILUSER = auth.getName();
+        model.addAttribute("userEmail", EMAILUSER);
+        return "/transfer";
+    }
+
+
+//    boolean flag=false;
+//
+//    @RequestMapping(value="/transfer", method=RequestMethod.POST, params="action=account")
+//    public void account() {
+//        flag=true;
+//        System.out.println("account");
+//    }
+//
+//    @RequestMapping(value="/transfer", method=RequestMethod.POST, params="action=rib")
+//    public void rib() {
+//        flag=false;
+//        System.out.println("rib");
+//    }
+
+    @RequestMapping(value = "/transfer")
+    public String showCheckbox(Model model) {
+        boolean myBooleanVariable = false;
+        model.addAttribute("myBooleanVariable", myBooleanVariable);
+        return "sample-checkbox";
+    }
+
+    @GetMapping("/bad")
+    public String badPage() {
+        return "/bad";
+    }
+
+    @GetMapping("/recapRegister")
+    public String recapRegister(Model model) {
+        //TODO a finir
+
+        // Data Saved
+        model.addAttribute("varInfo", "Your data has been saved !");
+        return "/recapRegister";
+    }
+
+
+
 
 //    //Récupération des data
 //    @PostMapping("/login")
@@ -34,17 +112,6 @@ public class UserController {
 //         System.out.println("Login BDD > "+login+" Pass BDD >  "+pass);
 //        return "/payment";
 //    }
-
-    @GetMapping("/payment")
-    public String success(){
-        return "/payment";
-    }
-
-    @GetMapping("/bad")
-    public String badPage(){
-        return "/bad";
-    }
-
 
 
 //    @GetMapping("/admin")
@@ -67,7 +134,6 @@ public class UserController {
 //        return "login";
 //    }
 //
-
 
 
     // ok

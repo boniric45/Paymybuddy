@@ -21,7 +21,7 @@
 	margin-right: auto;
 
 	  width: 800px;
-  	height: 700px;
+  	height: 350px;
   	border: 3px solid  #ccc;
   	border-radius: 10px 10px 10px 10px;
 }
@@ -52,39 +52,24 @@
 	height: 35px;
 }
 
-.btn-primary{
-	font-family: Comic sans, sans-serif; 
-
-	font-size:16px;
-	font-weight: 600;
-	padding-left: 40px;
-	padding-right: 40px;
-}
-
 .btn-success{
 
 	font-family: Comic sans, sans-serif; 
 	font-size:14px;
 	font-weight: 600;
+	margin-left: 15px;
 	padding-left: 70px;
 	padding-right: 70px;
 }
 
-.path{
-	margin-top: 10px;
-	margin-left: 20px;
-	font-family: Comic sans, sans-serif; 
-	font-size:16px;
-	font-weight: 600;
-}
 
 .box-send-money{
-	justify-content: center;
-	margin-left: 50px;
-	margin-top: 30px;
-	width: 690px;
-	height: 150px;
 
+	justify-content: center;
+	margin-left: 370px;
+	margin-top: 30px;
+	width: 750px;
+	height: 150px;
 	background-color: rgb(245, 245, 245);
 }
 
@@ -111,24 +96,11 @@ margin-top: 65px;
 	width: 150px;
 }
 
-.my-transactions{
-	margin-top: 45px;
-	margin-left: 45px;
-	margin-bottom: 10px;
-	font-family: Comic sans, sans-serif; 
-	font-size:16px;
-	font-weight: 600;
-	
+.form-select-lg{
+
+	margin-right: 25px;
 }
 
-.list-contact{
-
-	width: 690px;
-	height: 300px;
-	border: 2px solid  #000;
-	margin-left: 45px;
-	margin-right: 380px;
-}
 
     </style>
 
@@ -148,7 +120,7 @@ margin-top: 65px;
 
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Transfer</a>
+    <a class="nav-link" href="/transfer">Transfer</a>
 
   </li>
   <li class="nav-item">
@@ -168,7 +140,8 @@ margin-top: 65px;
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/login">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Transfer</a></li>
+        <li class="breadcrumb-item"><a href="/transfer">Transfer</a></li>
+        <li class="breadcrumb-item"><a href="#">Transaction</a></li>
 
       </ol>
     </nav>
@@ -177,43 +150,24 @@ margin-top: 65px;
 <div class="content">
         <div class="btn-submit">
 			<div class="send_money">
-	    	Send Money
-			</div>   
-            <button type="submit" class="btn btn-primary">Add Connection</button>
-        </div>
+
 
     <div class="box-send-money">
 
 		<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-  		<option selected>Select A Connection </option>
-  		<option value="1">One</option>
-  		<option value="2">Two</option>
-  		<option value="3">Three</option>
+  		<option selected> Means of payment </option>
+  		<option value="1">Balance</option>
+  		<option value="2">CB</option>
 		</select>
 		
 		<div class="form-amount">
   		<input type="number" id="typeNumber" class="form-control"  />
 		</div>
 
-		<button type="button" class="btn btn-success">Pay</button>
+		<a type="button" class="btn btn-success">Pay</a>
 	
   		</div>
 
-			<div class="my-transactions">
-	    	My Transactions
-	    		</div>
-
-<div class="list-contact">
-  			
-<ul class="list-group">
-  <li class="list-group-item list-group-item-success">Connections            Description               Amount</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Morbi leo risus</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-</ul>
 
   		</div>
 

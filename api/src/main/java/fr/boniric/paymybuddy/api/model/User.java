@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -16,12 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id")
     private Integer id;
-
-    @Column(name = "users_registration_date")
-    private Date registrationDate;
-
-    @Column(name = "users_roles")
-    private String roles;
 
     @Column(name = "users_password")
     private String password;
@@ -56,4 +49,6 @@ public class User {
     @Column(name = "users_swift")
     private String swift;
 
+    @Column(name = "users_roles")
+    private String roles = "user";
 }
