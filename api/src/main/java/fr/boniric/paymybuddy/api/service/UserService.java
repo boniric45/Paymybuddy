@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Optional;
 
 @Data
@@ -16,11 +15,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> getUserByEmail(String email) { return userRepository.findByEmail(email);}
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-    public Iterable<User> getAllUser() { return userRepository.findAll(); }
+    public Iterable<User> getAllUser() {
+        return userRepository.findAll();
+    }
 
-    public User saveUser (User user) { return userRepository.save(user); }
+    public User saveUser(User user) {
+        System.out.println(user);
+
+        return userRepository.save(user);
+    }
 
 
 }

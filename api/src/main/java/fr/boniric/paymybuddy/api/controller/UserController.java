@@ -3,16 +3,18 @@ package fr.boniric.paymybuddy.api.controller;
 import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     /**
      * Create - Add a new User
@@ -22,9 +24,16 @@ public class UserController {
      */
 
     @PostMapping("/user")
-    public User createUser(@RequestBody User user) { return userService.saveUser(user);
-    }
+    public User register(@RequestBody User user) {
 
+        if (userService.getUserByEmail(user.getEmail()).isPresent()){
+            System.out.println(" Email déjà en base ");
+            return null;
+        } else {
+            userService.saveUser(user);
+        }
+        return user;
+    }
 
     /**
      * Read - Get all user
