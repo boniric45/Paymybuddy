@@ -18,16 +18,13 @@ public class UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
+    public Iterable<User> getUserById(Integer authId) {
+        return userRepository.getUserById(authId);
+    }
     public Iterable<User> getAllUser() {
         return userRepository.findAll();
     }
-
-    public User saveUser(User user) {
-        System.out.println(user);
-
-        return userRepository.save(user);
-    }
+    public void saveUser(User user) { userRepository.save(user); }
 
 
 }

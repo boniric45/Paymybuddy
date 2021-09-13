@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <title> Pay My Buddy </title>
+
+    <style>
+.img{
+	display:flex;
+	justify-content:center;
+		margin-top:15px;
+}
+   span {
+        display: inline-block;
+        padding-top:10px;
+        width: 200px;
+        text-align: left;
+        margin-left:10px;
+    }
+
+.content{
+	display: block;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+
+	width: 600px;
+  	height: 300px;
+  	border: 3px solid  #ccc;
+  	border-radius: 10px 10px 10px 10px;
+}
+
+.lab{
+display:flex;
+justify-content:center;
+margin-top:10px;
+margin-bottom:10px;
+	font-family: Comic sans, sans-serif;
+	font-size:16px;
+	font-weight: 600;
+}
+
+.btn-submit{
+	display:flex;
+	justify-content:center;
+	margin-top:10px;
+}
+.btn-success{
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.btn-danger{
+margin-left:10px;
+}
+
+.total{
+margin-top:30px;
+	font-family: Comic sans, sans-serif;
+	font-size:16px;
+	font-weight: 600;
+}
+
+
+    </style>
+
+</head>
+<body>
+
+<div class="img">
+    <img src="/images/logoPaymybuddy.png" alt=Image/>
+</div>
+
+<div class="content">
+
+    <p class="lab" type="text" data-th-text="${status}"></p>
+
+    <span th:text="'Transaction Date: ' + ${{transaction.date}}"></span><br>
+    <span th:text="'First name: ' + ${firstname}"></span><br>
+    <span th:text="'Last name: ' + ${lastname}"></span><br>
+    <span th:text="'Email: ' + ${email}"></span><br>
+    <span th:text="'Amount: ' + ${{transaction.transactionAmount}} + ' €'"></span><br>
+    <span th:text="'Commission: ' + ${{transaction.transactionCommissionAmount}} + ' €'"></span><br>
+
+    <p class="total" align="center" th:text="'Total: ' + ${{transaction.transactionTotalAmount}} + ' €'"></p><br>
+
+</div>
+
+<form method="post" th:action="recapTransaction">
+
+    <div class="btn-submit">
+
+        <input type="submit" class="btn btn-success" th:if="${displayBtnPay}" th:value="Pay">
+        <input type="submit" class="btn btn-danger" href="/transfer" th:value="Cancel">
+    </div>
+</form>
+</body>
+</html>

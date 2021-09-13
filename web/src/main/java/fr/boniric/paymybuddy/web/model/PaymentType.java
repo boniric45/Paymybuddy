@@ -1,15 +1,14 @@
 package fr.boniric.paymybuddy.web.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
-@NoArgsConstructor
-public class PaiementType {
+@Setter
+public class PaymentType {
 
-    private String account;
+    private int id;
     private String rib;
+    private String account;
 
 }

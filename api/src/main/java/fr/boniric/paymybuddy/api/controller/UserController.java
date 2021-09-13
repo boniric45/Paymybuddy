@@ -3,10 +3,7 @@ package fr.boniric.paymybuddy.api.controller;
 import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -14,7 +11,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
 
     /**
      * Create - Add a new User
@@ -26,7 +22,7 @@ public class UserController {
     @PostMapping("/user")
     public User register(@RequestBody User user) {
 
-        if (userService.getUserByEmail(user.getEmail()).isPresent()){
+        if (userService.getUserByEmail(user.getEmail()).isPresent()) {
             System.out.println(" Email déjà en base ");
             return null;
         } else {
@@ -45,7 +41,6 @@ public class UserController {
         return userService.getAllUser();
     }
 
-
     /**
      * Read - Get one user by Email
      *
@@ -57,70 +52,27 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    @GetMapping("/users/{id}")
+    public Iterable<User> getUserFindById(@PathVariable("id") Integer userId){
+        return userService.getUserById(userId);
+    }
 
-//    /**
-//     * Update - Update an existing user
-//     *
-//     * @param id   - The id of the user to update
-//     * @param user - The user object updated
-//     */
-//    @PutMapping("/user/{id}")
-//    public User updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
-//        Optional<User> u = userService.getUserById(id);
-//        if (u.isPresent()) {
-//            User currentUser = u.get();
+//    @PutMapping("/users/{id}")
+//    public User updateUser(@PathVariable("id") final Integer id, @RequestBody User user) {
+//        Optional<User> userId = userService.getUserById(id);
 //
-//            String password = user.getPassword();
-//            if (password != null) {
-//                currentUser.setPassword(password);
-//            }
+//        if(userId.isPresent()) {
+//            User currentUser = userId.get();
+//            double balanceUser = user.getBalance();
 //
-//            String address = user.getAddress();
-//            if (address != null) {
-//                currentUser.setAddress(address);
-//            }
+//            if (currentUser!=null){
 //
-//            String zip = user.getZip();
-//            if (zip != null) {
-//                currentUser.setZip(zip);
-//            }
-//
-//            String city = user.getCity();
-//            if (city != null) {
-//                currentUser.setCity(city);
-//            }
-//
-//            String phone = user.getPhone();
-//            if (phone != null) {
-//                currentUser.setPhone(phone);
-//            }
-//
-//            String iban = user.getIban();
-//            if (iban != null) {
-//                currentUser.setIban(iban);
-//            }
-//
-//            String swift = user.getSwift();
-//            if (swift != null) {
-//                currentUser.setSwift(swift);
-//            }
-//            userService.saveUser(currentUser);
-//            return currentUser;
-//        } else {
-//            return null;
+//                currentUser.setBalance(balanceUser);
+//            userService.saveUser(user);
+//            } else {return null;}
 //        }
-//    }
 //
 //
-//    /**
-//     * Delete - Delete an user
-//     *
-//     * @param id - The id of the user to delete
-//     */
-//    @DeleteMapping("/user/{id}")
-//    public void deleteUser(@PathVariable("id") Integer id) {
-//        userService.deleteUser(id);
-//    }
-
-
+//
+//
 }

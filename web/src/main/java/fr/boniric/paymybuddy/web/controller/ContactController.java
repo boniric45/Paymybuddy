@@ -23,7 +23,6 @@ public class ContactController {
     @Autowired
     UserService userService;
 
-
     @GetMapping("/addconnection")
     public String addconnection(Model model) {
 
@@ -46,7 +45,6 @@ public class ContactController {
         System.out.println("UserAuthenticate > " + userAuthenticate + " New User > " + newUser.getEmail());
 
         //TODO règle vérifier mail
-        //TODO règle vérifier balance
 
         User userContact = userService.getUserByEmail(newUser.getEmail());
 
@@ -57,11 +55,13 @@ public class ContactController {
             User userAuth = userService.getUserByEmail(userAuthenticate);
             int idUserAuthenticate = userAuth.getId();
             int idNewContact = userContact.getId();
-            System.out.println("ID AUTH > "+idUserAuthenticate+" ID New > "+idNewContact);
+            Contact contact = new Contact();
+
+            contact.setContactId(idNewContact);
+            contact.setUsersId(idUserAuthenticate);
 
             //TODO vérifier si le contact est déja présent
-            contactService.saveId(idUserAuthenticate,idNewContact);
-
+            contactService.saveContact(contact);
         }
 
 
@@ -70,4 +70,6 @@ public class ContactController {
 
         return new ModelAndView("redirect:/addconnection");
     }
+
+
 }

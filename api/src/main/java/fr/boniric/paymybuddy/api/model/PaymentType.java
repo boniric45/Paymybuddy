@@ -18,13 +18,13 @@ public class PaymentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_type_id")
-    private Long paymentTypeId;
+    private Long id;
 
-    @Column(name = "payment_type_cb")
-    private String paymentTypeCB;
+    @Column(name = "payment_type_rib")
+    private String rib;
 
     @Column(name = "payment_type_balance")
-    private String paymentTypeBalance;
+    private String account;
 
 
 

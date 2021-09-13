@@ -1,18 +1,16 @@
 package fr.boniric.paymybuddy.api.controller;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
-import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @RestController
 public class TransactionController {
 
     @Autowired
-    TransactionService transactionService;
+    private TransactionService transactionService;
 
     /**
      * Create - Add a new Transaction
@@ -22,22 +20,25 @@ public class TransactionController {
      */
     @PostMapping("/transaction")
     public Transaction createTransaction(@RequestBody Transaction transaction) {
-        return transactionService.saveTransaction(transaction);
+        System.out.println(transaction);
+         transactionService.saveTransaction(transaction);
+         return transaction;
     }
 
     /**
      * Read - Get one transaction
+     *
      * @param id The id of the transaction
      * @return An transaction object full filled
      */
     @GetMapping("/transaction/{id}")
-    public Transaction getTransactionById(@PathVariable("id") Integer id) {
-        Optional<Transaction> transaction = transactionService.getTransactionById(id);
-        if(transaction.isPresent()) {
-            return transaction.get();
-        } else {
-            return null;
-        }
+    public Optional<Transaction> getTransactionById(@PathVariable("id") Long id) {
+        return transactionService.getTransactionById(id);
     }
 
+
+    @GetMapping("/transaction/all")
+    public Iterable<Transaction> getAllTransaction() {
+        return transactionService.getAllTransaction();
+    }
 }

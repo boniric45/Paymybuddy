@@ -23,13 +23,12 @@ public class User {
 
     private String city;
 
-    private long balance;
+    private double balance;
 
     private String swift;
 
     private String iban;
 
-    private String roles="user";
-
+    private String roles = "user";
 
 }

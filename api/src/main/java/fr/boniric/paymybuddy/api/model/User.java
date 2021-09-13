@@ -41,7 +41,7 @@ public class User {
     private String email;
 
     @Column(name = "users_balance")
-    private long balance;
+    private double balance;
 
     @Column(name = "users_iban")
     private String iban;
@@ -51,4 +51,6 @@ public class User {
 
     @Column(name = "users_roles")
     private String roles = "user";
+
+
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      xmlns:type="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="https://www.thymeleaf.org ">
 
 <head>
@@ -45,7 +45,6 @@
 }
 
 
-/*  Button  */
 .btn-submit{
 	display: flex;
 	justify-content: left;
@@ -59,17 +58,17 @@
 	font-size:16px;
 	font-weight: 600;
 	margin-left: 190px;
+
 	padding-left: 30px;
 	padding-right: 30px;
 }
 
 .btn-success{
-
-	font-family: Comic sans, sans-serif; 
+	font-family: Comic sans, sans-serif;
 	font-size:14px;
 	font-weight: 600;
-	padding-left: 70px;
-	padding-right: 70px;
+	padding-left: 50px;
+	padding-right: 50px;
 }
 
 .path{
@@ -156,13 +155,6 @@ margin-left:10px;
 margin-left:2px;
 }
 
-.form-group-radio{
-display:flex;
-justify-content:left;
-margin-top:5px;
-margin-left:100px;
-}
-
 .btnAccount{
 margin-right:10px;
 padding-right:10px;
@@ -170,8 +162,20 @@ padding-right:10px;
 
 .form-select-lg{
 display:inline-flex;
+justify:center;
 margin-top:2px;
+margin-left:30px;
+	font-family: Comic sans, sans-serif;
+	font-size:14px;
+	font-weight: 600;
 }
+.btnradio{
+display:flex;
+justify-content:left;
+margin-top:5px;
+margin-left:30px;
+}
+
 
 
     </style>
@@ -217,56 +221,48 @@ margin-top:2px;
 </nav>
 
 <div class="content">
+
     <div class="btn-submit">
         <p class="send_money" data-th-text="'Send Money - Account: ' + ${balance}"></p>
+
         <a class="btn btn-primary" href="/addconnection" role="button">Add Connection</a>
     </div>
-
     <div class="box-send-money">
+    <form action="/transfer" method="post" th:action="@{/transfer}" th:object="${transaction}">
 
-        <form class="form-group-radio" method="post">
-            <!-- Make sure to always set a value for attributes when using thymeleaf (use checked="checked" instead of checked) -->
-            <div class="btnAccount"><input type="radio" name="payment" value="account" checked="checked"  /> Account</div>
-
-            <div class="btnRib"><input type="radio" name="payment" value="rib" /> Rib</div>
-        </form>
-
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-            <option selected>Select A Connection</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+        <div class="btnradio">
+        <div class="btnAccount"><input type="radio" th:field="*{paymentTypeId}" value="1" checked="checked" required/> Account</div>
+        <div class="btnRib"><input type="radio" th:field="*{paymentTypeId}" value="2"/> Rib</div>
+        </div>
+        <select class="form-select form-select-lg mb-3" th:field="*{listEmail}">
+            <option selected value="null"  >Select A Connection:</option>
+            <option th:each="p : ${list}" th:value="${p}" th:text="${p}" ></option>
         </select>
 
-        <div class="form-amount">
-            <input type="number" id="typeNumber" class="form-control"/>
-        </div>
-        <a type="button" href="/transfer" class="btn btn-success">Pay</a>
+        <input type="number" class="form-amount" id="transactionAmountInput" th:field="*{transactionAmount}" />
+        <button type="submit" class="btn btn-success" >Pay</button>
 
-            <div class="custom-control custom-radio custom-control">
 
-            </div>
+    </form>
+    </div>
 
-        </div>
-        <div class="my-transactions">
-            My Transactions
-        </div>
+    <div class="my-transactions">
+        My Transactions
+    </div>
 
-        <div class="list-contact">
-
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success">Connections Description Amount</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-
-        </div>
+    <div class="list-contact">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-success">Connections Description Amount</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
     </div>
 </div>
+
 
 </body>
 </html>

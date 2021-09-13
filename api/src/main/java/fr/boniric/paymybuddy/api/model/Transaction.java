@@ -1,45 +1,44 @@
 package fr.boniric.paymybuddy.api.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction", schema = "public")
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
-    private Long transactionId;
+    @Column(name = "transaction_id", nullable = false)
+    private Integer transactionId;
 
     @Column(name = "payment_type_id")
-    private String paymentTypeId;
+    private int paymentTypeId;
 
     @Column(name = "users_id")
-    private String payerAgent;
+    private int userId;
 
     @Column(name = "contact_id")
-    private Long beneficiary;
+    private int contactId;
 
     @Column(name = "transaction_date")
-    private Date transactionDate;
-
-    @Column(name = "transaction_description")
-    private String transactionDescription;
+    private LocalDate date = LocalDate.now();
 
     @Column(name = "transaction_amount")
     private float transactionAmount;
 
     @Column(name = "transaction_commission_amount")
-    private float transactionCommissionAmount;
+    private double transactionCommissionAmount;
+
+    @Column(name = "transaction_total_payment")
+    private double transactionTotalAmount;
+
+    @Column(name = "transaction_listemail")
+    private String listEmail;
 
 }

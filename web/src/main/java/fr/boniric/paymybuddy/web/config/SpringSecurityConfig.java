@@ -50,6 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/inscription").permitAll()
                 .antMatchers(HttpMethod.GET,"/contact").authenticated()
+                .antMatchers(HttpMethod.GET,"/contact/*").authenticated()
                 .antMatchers(HttpMethod.POST,"/contact").authenticated()
                 .antMatchers(HttpMethod.GET, "/transfer").authenticated()
                 .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
@@ -58,6 +59,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.GET, "/pay").authenticated()
                 .antMatchers(HttpMethod.POST, "/pay").authenticated()
+                .antMatchers(HttpMethod.GET, "/transaction").authenticated()
+                .antMatchers(HttpMethod.POST, "/transaction").authenticated()
+                .antMatchers(HttpMethod.GET, "/recapTransaction").authenticated()
+                .antMatchers(HttpMethod.POST, "/recapTransaction").authenticated()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .and()
                 .formLogin()//connexion par formulaire autorisé

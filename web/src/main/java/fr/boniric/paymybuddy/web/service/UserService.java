@@ -6,8 +6,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Data
 @Service
 public class UserService {
@@ -19,13 +17,9 @@ public class UserService {
         return userProxy.getUserByEmail(email);
     }
 
-//    public Iterable<User> getUserAll() { return userProxy.getUserAll();}
-
-
-    public User saveUser(User user) {
-        User savedUser;
-        savedUser = userProxy.createUser(user);
-
-        return savedUser;
+    public void saveUser(User user) {
+    userProxy.createUser(user);
     }
+
+
 }
