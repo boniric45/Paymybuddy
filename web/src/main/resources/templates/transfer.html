@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:overflow-X="http://www.w3.org/1999/xhtml"
+      xmlns:overflow-Y="http://www.w3.org/1999/xhtml"
       xsi:schemaLocation="https://www.thymeleaf.org ">
 
 <head>
@@ -59,7 +60,7 @@
 	font-weight: 600;
 	margin-left: 190px;
 
-	padding-left: 30px;
+	padding-left: 20px;
 	padding-right: 30px;
 }
 
@@ -132,6 +133,8 @@ margin-top: 65px;
 	border: 2px solid  #000;
 	margin-left: 45px;
 	margin-right: 380px;
+	scrollbar-height: 300px;
+	overflow-y: scroll;
 }
 
 .auth{
@@ -239,9 +242,8 @@ margin-left:30px;
             <option th:each="p : ${list}" th:value="${p}" th:text="${p}" ></option>
         </select>
 
-        <input type="number" class="form-amount" id="transactionAmountInput" th:field="*{transactionAmount}" />
+        <input type="text" class="form-amount" id="transactionAmountInput" th:field="*{transactionAmount}" placeholder=""/>
         <button type="submit" class="btn btn-success" >Pay</button>
-
 
     </form>
     </div>
@@ -252,15 +254,12 @@ margin-left:30px;
 
     <div class="list-contact">
         <ul class="list-group">
-            <li class="list-group-item list-group-item-success">Connections Description Amount</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            <li class="list-group-item list-group-item-success" th:field="*{transactionList}" ></li>
+            <li class="list-group-item" th:each="l : ${transactionList}" th:value="${l}" th:text="${l}"></li>
         </ul>
     </div>
+
+
 </div>
 
 

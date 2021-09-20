@@ -11,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Data
@@ -56,7 +58,6 @@ public class UserController {
         return new ModelAndView("redirect:/recapRegister");
     }
 
-
     @GetMapping("/bad")
     public String badPage() {
         return "/bad";
@@ -64,12 +65,33 @@ public class UserController {
 
     @GetMapping("/recapRegister")
     public String recapRegister(Model model) {
-        //TODO a finir
 
         // Data Saved
         model.addAttribute("varInfo", "Your registration has been registered an email link will be sent to you");
         return "/recapRegister";
     }
 
+    @GetMapping("/users/{id}")
+    public Iterable<User> getUserFindById(@PathVariable("id") Integer userId) {
+        return userService.getUserById(userId);
+    }
 
+    @PutMapping("/updateBalance/{id}/{amountTransaction}")
+    public void updateUser(@PathVariable("id") int updateUserId, @PathVariable("amountTransaction") double amountTransaction) {
+
+        if (updateUserId != 0 || amountTransaction != 0){
+            Iterable<User> userId = userService.getUserById(updateUserId);
+            for (User userIT : userId) {
+                if (userIT != null) {
+                    double amountTransactionRound = Math.round(amountTransaction * 100.0) / 100.0;
+                    userIT.setBalance(amountTransactionRound);
+                    userService.saveUser(userIT);
+                }
+
+        }
+
+
+        }
+    }
 }
+

@@ -30,6 +30,20 @@ public class UserProxy {
         return response.getBody();
     }
 
+    public User getUserById(int userId) {
+        String baseApiUrl = props.getApiURL();
+        String getUserURL = baseApiUrl + "/users/"+userId;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<User> response = restTemplate.exchange(
+                getUserURL,
+                HttpMethod.GET,
+                null,
+                User.class);
+
+        log.debug("Get User By Id call " + response.getStatusCode());
+        return response.getBody();
+    }
+
     public User createUser(User user) {
         String baseApiUrl = props.getApiURL();
         String getUserURL = baseApiUrl + "/user";
@@ -42,9 +56,25 @@ public class UserProxy {
                 request,
                 User.class);
 
-        log.debug("Create User call " + response.getStatusCode().toString());
+        log.debug("Create User call " + response.getStatusCode());
         return response.getBody();
     }
 
+
+    public void updateUser(Integer userId, double amountTransaction) {
+
+        String baseApiUrl = props.getApiURL();
+        String getUserURL = baseApiUrl + "/updateBalance/"+userId+"/"+amountTransaction;
+
+        RestTemplate restTemplate = new RestTemplate();
+//        HttpEntity<User> request = new HttpEntity<User>(user);
+        ResponseEntity<User> response = restTemplate.exchange(
+                getUserURL,
+                HttpMethod.PUT,
+                null,
+                User.class);
+
+        log.debug("Create User call " + response.getStatusCode());
+    }
 
 }

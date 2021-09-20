@@ -23,7 +23,6 @@ public class ContactService {
     // List ok
     public List<String> getListContact(int authUserId){
     List<String> listContact = new ArrayList<>();
-    List<String> listContactId = new ArrayList<>();
     Iterable<Contact> userContact = getAllContact();
     Iterable<User> userFirstname = userService.getAllUser();
     for (Contact contact : userContact){

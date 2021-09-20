@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Data
 @Service
 public class UserService {
@@ -18,8 +20,16 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-    userProxy.createUser(user);
+        userProxy.createUser(user);
     }
 
+
+    public Iterable<User> getUserById(int userId) {
+        return Collections.singleton(userProxy.getUserById(userId));
+    }
+
+public void updateUser(Integer userId, double amountTransaction){
+        userProxy.updateUser(userId,amountTransaction);
+}
 
 }

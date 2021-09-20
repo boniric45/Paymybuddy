@@ -44,9 +44,10 @@
 
 .btnhome{
   display: inline-flex;
-  padding-left: 80px;
+  padding-left: 90px;
   padding-right: 40px;
-  margin-top: 70px;
+  margin-left: 10px;
+  margin-top: 40px;
 }
 
 .btnsave{
@@ -91,6 +92,12 @@
 	font-weight: 600;
 }
 
+.status{
+display:flex;
+justify-content: center;
+margin-top:30px;
+}
+
     </style>
 
 </head>
@@ -122,12 +129,10 @@
 </ul>
 
 <div class="content">
-
-    <form method="post" th:action="@{/addconnection}" th:object="${newcontact}">
-
-        <div class="auth">
-            <p data-th-text="'Authenticated as : ' + ${userEmail}"></p>
-        </div>
+    <div class="auth">
+        <p data-th-text="'Authenticated as : ' + ${userEmail}"></p>
+    </div>
+    <form method="post" th:action="@{/addconnection}" th:object="${user}">
 
         <div class="form-group">
             <input type="email" th:field="*{email}" class="form-control"  id="contactId"
@@ -140,6 +145,10 @@
 
         <div class="btnsave">
             <button name="submit" type="submit" class="btn btn-primary">Save Contact</button>
+        </div>
+
+        <div class="status">
+            <p type="danger" data-th-text="${status}"></p>
         </div>
 
     </form>

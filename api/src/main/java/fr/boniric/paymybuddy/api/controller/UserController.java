@@ -4,6 +4,7 @@ import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 @RestController
@@ -53,26 +54,31 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Iterable<User> getUserFindById(@PathVariable("id") Integer userId){
+    public Iterable<User> getUserFindById(@PathVariable("id") Integer userId) {
         return userService.getUserById(userId);
     }
 
-//    @PutMapping("/users/{id}")
-//    public User updateUser(@PathVariable("id") final Integer id, @RequestBody User user) {
-//        Optional<User> userId = userService.getUserById(id);
-//
-//        if(userId.isPresent()) {
-//            User currentUser = userId.get();
-//            double balanceUser = user.getBalance();
-//
-//            if (currentUser!=null){
-//
-//                currentUser.setBalance(balanceUser);
-//            userService.saveUser(user);
-//            } else {return null;}
-//        }
-//
-//
-//
-//
+    /**
+     *      Update balance User with amountTransaction
+     *
+     * @param id                The id of the user
+     * @param amountTransaction new balance
+     *                          Update balance User with amountTransaction
+     */
+    @PutMapping("/updateBalance/{id}/{amountTransaction}")
+    public void updateUser(@PathVariable("id") Integer id, @PathVariable("amountTransaction") double amountTransaction) {
+        Iterable<User> userId = userService.getUserById(id);
+        for (User userIT : userId) {
+            if (userIT != null) {
+                userIT.setBalance(amountTransaction);
+                userService.saveUser(userIT);
+            }
+        }
+    }
 }
+
+
+
+
+
+

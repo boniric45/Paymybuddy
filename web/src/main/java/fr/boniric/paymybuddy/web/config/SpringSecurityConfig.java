@@ -52,15 +52,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/contact").authenticated()
                 .antMatchers(HttpMethod.GET,"/contact/*").authenticated()
                 .antMatchers(HttpMethod.POST,"/contact").authenticated()
-                .antMatchers(HttpMethod.GET, "/transfer").authenticated()
+                .antMatchers(HttpMethod.GET, "/transfer/*").authenticated()
                 .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
                 .antMatchers(HttpMethod.GET, "/username").authenticated() //Récupère l'identifiant
                 .antMatchers(HttpMethod.GET, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.POST, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.GET, "/pay").authenticated()
                 .antMatchers(HttpMethod.POST, "/pay").authenticated()
-                .antMatchers(HttpMethod.GET, "/transaction").authenticated()
-                .antMatchers(HttpMethod.POST, "/transaction").authenticated()
+                .antMatchers(HttpMethod.GET, "/transaction/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/transaction/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/recapTransaction").authenticated()
                 .antMatchers(HttpMethod.POST, "/recapTransaction").authenticated()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
@@ -69,8 +69,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")//champ formulaire
                 .passwordParameter("password")
                 .loginPage("/login").permitAll() // formulaire de login personnalisé
-                .failureUrl("/bad")// si ko renvoi bad
-                .defaultSuccessUrl("/transfer")// si ok renvoi payment
+                .failureUrl("/bad")// if ko bad
+                .defaultSuccessUrl("/transfer")// if ok transfer
                 .and()
                 .csrf().disable();//Sécurité
 

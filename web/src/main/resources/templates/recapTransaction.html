@@ -70,6 +70,7 @@ margin-top:30px;
 }
 
 
+
     </style>
 
 </head>
@@ -78,7 +79,7 @@ margin-top:30px;
 <div class="img">
     <img src="/images/logoPaymybuddy.png" alt=Image/>
 </div>
-
+<form method="post" th:action="recapTransaction" th:object="${transaction}">
 <div class="content">
 
     <p class="lab" type="text" data-th-text="${status}"></p>
@@ -94,13 +95,11 @@ margin-top:30px;
 
 </div>
 
-<form method="post" th:action="recapTransaction">
-
     <div class="btn-submit">
-
-        <input type="submit" class="btn btn-success" th:if="${displayBtnPay}" th:value="Pay">
-        <input type="submit" class="btn btn-danger" href="/transfer" th:value="Cancel">
+        <input type="submit" class="btn btn-success" th:if="${displayBtnPay}" th:name="action" th:value="Pay" >
+        <input type="submit" class="btn btn-danger" href="/transfer" th:name="action" th:value="Cancel" >
     </div>
+
 </form>
 </body>
 </html>
