@@ -30,7 +30,7 @@ public class Transaction {
     private LocalDate date = LocalDate.now();
 
     @Column(name = "transaction_amount")
-    private float transactionAmount;
+    private double transactionAmount;
 
     @Column(name = "transaction_commission_amount")
     private double transactionCommissionAmount;
@@ -40,5 +40,8 @@ public class Transaction {
 
     @Column(name = "transaction_listemail")
     private String listEmail;
+
+    @Column(name = "transaction_description")
+    private String description;
 
 }

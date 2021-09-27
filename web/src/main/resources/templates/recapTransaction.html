@@ -31,9 +31,8 @@
 	margin-top: 25px;
 	margin-left: auto;
 	margin-right: auto;
-
 	width: 600px;
-  	height: 300px;
+  	height: 290px;
   	border: 3px solid  #ccc;
   	border-radius: 10px 10px 10px 10px;
 }
@@ -82,21 +81,20 @@ margin-top:30px;
 <form method="post" th:action="recapTransaction" th:object="${transaction}">
 <div class="content">
 
-    <p class="lab" type="text" data-th-text="${status}"></p>
-
     <span th:text="'Transaction Date: ' + ${{transaction.date}}"></span><br>
     <span th:text="'First name: ' + ${firstname}"></span><br>
     <span th:text="'Last name: ' + ${lastname}"></span><br>
     <span th:text="'Email: ' + ${email}"></span><br>
-    <span th:text="'Amount: ' + ${{transaction.transactionAmount}} + ' €'"></span><br>
-    <span th:text="'Commission: ' + ${{transaction.transactionCommissionAmount}} + ' €'"></span><br>
+    <span th:text="'Description: ' + ${description}"></span><br>
+    <span th:text="'Amount: ' + ${{transactionAmount}} + ' €'"></span><br>
+    <span th:text="'Commission: ' + ${{transactionCommissionAmount}} + ' €'"></span><br>
 
-    <p class="total" align="center" th:text="'Total: ' + ${{transaction.transactionTotalAmount}} + ' €'"></p><br>
+    <p class="total" align="center" th:text="'Total: ' + ${{transactionTotalAmount}} + ' €'"></p><br>
 
 </div>
 
     <div class="btn-submit">
-        <input type="submit" class="btn btn-success" th:if="${displayBtnPay}" th:name="action" th:value="Pay" >
+        <input type="submit" class="btn btn-success" th:name="action" th:value="Pay" >
         <input type="submit" class="btn btn-danger" href="/transfer" th:name="action" th:value="Cancel" >
     </div>
 

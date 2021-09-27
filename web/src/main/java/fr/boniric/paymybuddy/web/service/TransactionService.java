@@ -13,24 +13,142 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Service
 public class TransactionService {
-    private String EMAILUSER_AUTHENTICATE;
-
+    public Transaction RESULT_TRANSACTION;
+    public  List<String> LIST_TRANSACTION = new ArrayList<>();
+    public Boolean RELOADING = false;
     @Autowired
     UserService userService;
-
     @Autowired
     TransactionProxy transactionProxy;
-
+    private String EMAILUSER_AUTHENTICATE;
     @Autowired
     private ContactService contactService;
 
-    public void transactionServicePost(Transaction transaction, Model model, Boolean PAYED) {
+    public void pushNewLoginToTransfer(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); // get email user authenticate
+        EMAILUSER_AUTHENTICATE = auth.getName(); // get email authenticate
+        User user = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get user by email
+        Transaction transaction = new Transaction();
+
+        int userAuthId = user.getId(); // get userId
+        String strList = contactService.listOfContact(userAuthId); // get Listcontact
+        String strListTransaction = getListTransaction(userAuthId); // get ListTransaction
+
+
+        double balanceUser = user.getBalance(); // get balance user authenticate
+
+        // Object result list of contact by user authenticate
+        List<String> listContact = new ArrayList<>();
+        JSONArray ja = new JSONArray(strList);
+        for (Object o : ja) {
+            CDL.rowToString(ja);
+            listContact.add((String) o);
+            model.addAttribute("list", listContact); // push list contact
+        }
+
+
+        // Object result list transaction by user authenticate
+        List<String> listTransaction = new ArrayList<>();
+        String[] rows;
+        JSONArray jaTransaction = new JSONArray(strListTransaction);
+        for (Object obj : jaTransaction) {
+            CDL.rowToString(jaTransaction);
+            String row = obj.toString();
+            rows = row.split("-");
+            listTransaction.addAll(Arrays.asList(rows));
+        }
+
+        // push news in forms transfer
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("userEmail", EMAILUSER_AUTHENTICATE); // push name authenticate
+        model.addAttribute("amount", "0€"); // push value
+        model.addAttribute("description", "Description"); // push description
+        model.addAttribute("balance", balanceUser + " €"); // push balance user
+
+        LIST_TRANSACTION = listTransaction;
+//        model.addAttribute("rows", listTransaction); // push list transaction
+
+
+    }
+
+
+
+    public String pushNewsTransferToRecapTransaction(Transaction transaction, Model model) {
+
+        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
+        int typePayment = transaction.getPaymentTypeId(); // type de payment
+        double amountTransaction = transaction.getTransactionAmount(); // montant
+        String description = transaction.getDescription(); // description
+
+        // control
+        return controlTypePayment(typePayment, transaction, model);
+    }
+
+    public String controlTypePayment(int typePayment, Transaction transaction, Model model) {
+
+        User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
+        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
+        double amountTransaction = transaction.getTransactionAmount();
+        String selector = "";
+
+        // Payment Type Account
+        if (typePayment == 1) {
+
+            //if the pay is identical to the selected user
+            if (Objects.equals(userPayer.getId(), userSelected.getId())) {
+                selector = "/transfer";
+                model.addAttribute("statut", "Please use rib payment");
+            }
+            // if amount is <= 0
+            else if (amountTransaction <= 0) {
+                selector = "/transfer";
+                model.addAttribute("statut", "Amount unauthorized");
+            }
+            // insufficient supply
+            else if (amountTransaction > userPayer.getBalance()) {
+                selector = "/transfer";
+                model.addAttribute("statut", "insufficient supply, Please use rib payment");
+            }
+            // payment
+            else {
+                selector = "/recapTransaction";
+                calculTransactionPushRecapTransaction(model, transaction);
+
+            }
+        }
+
+        // Payment Type Rib
+        if (typePayment == 2) {
+
+            // if amount is <= 0
+            if (amountTransaction <= 0) {
+                selector = "/transfer";
+                model.addAttribute("statut", "Amount unauthorized");
+            } else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
+                selector = "/recapTransaction";
+                calculTransactionPushRecapTransaction(model, transaction);
+                RELOADING = true;
+            }
+
+            // payment
+            else {
+                selector = "/recapTransaction";
+                calculTransactionPushRecapTransaction(model, transaction);
+            }
+        }
+
+        return selector;
+    }
+
+    public void calculTransactionPushRecapTransaction(Model model, Transaction transaction) {
 
         double commission = 0.005; // 0.5 %
         double amountTransaction = transaction.getTransactionAmount();
@@ -39,7 +157,7 @@ public class TransactionService {
         double amountCommission = amountTransactionFinal * commission;
         double amountCommissionFinal = Math.round(amountCommission * 100.0) / 100.0;
 
-        double amountTotalCommission = amountTransactionFinal + amountCommissionFinal;
+        double amountTotalWithCommission = amountTransactionFinal + amountCommissionFinal;
 
         User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
         User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
@@ -47,100 +165,28 @@ public class TransactionService {
         double balanceUserPayer = userPayer.getBalance(); // get balance user authenticate
         double balanceUserSelected = userSelected.getBalance(); // get balance user selected
 
-        transaction.setTransactionCommissionAmount(amountCommissionFinal); // Push amount commission in forms recapTransaction
-        transaction.setTransactionTotalAmount(amountTotalCommission); // Push amount in forms recapTransaction
+        transaction.setTransactionAmount(amountTransactionFinal);
+        transaction.setTransactionCommissionAmount(amountCommissionFinal);// Push amount commission in Object Transaction
+        transaction.setTransactionTotalAmount(amountTotalWithCommission);
         transaction.setUserId(userPayer.getId());
+        transaction.setContactId(userSelected.getId());
 
-        // load Transaction and push list in forms
-        List<Transaction> listTransaction = new ArrayList<>();
-        model.addAttribute("listTransaction", listTransaction);
-
-        int typePayment = transaction.getPaymentTypeId();
-
-        // Payment Type Account
-        if (typePayment == 1) {
-            // vérify if amount is > amount transaction
-            if (balanceUserPayer < amountTransactionFinal) {
-                PAYED = false;
-                // Push Forms recapTransaction
-                model.addAttribute("status", "Your balance is: " + balanceUserPayer + " €");
-                model.addAttribute("firstname", userSelected.getFirstname());
-                model.addAttribute("lastname", userSelected.getLastname());
-                model.addAttribute("email", userSelected.getEmail());
-                model.addAttribute("displayBtnPay", false);
-
-                // verify if payer is user selected
-            } else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
-                PAYED = false;
-                // Payment Balance //
-                model.addAttribute("status", "Please use rib payment");
-                model.addAttribute("firstname", userSelected.getFirstname());
-                model.addAttribute("lastname", userSelected.getLastname());
-                model.addAttribute("email", userSelected.getEmail());
-                model.addAttribute("displayBtnPay", false);
-
-            } else {
-                // Push Forms recapTransaction
-                model.addAttribute("status", "Please confirm your payment");
-                model.addAttribute("firstname", userSelected.getFirstname());
-                model.addAttribute("lastname", userSelected.getLastname());
-                model.addAttribute("email", userSelected.getEmail());
-                model.addAttribute("displayBtnPay", true);
-                transaction.setContactId(userSelected.getId());
-            }
-
-            if (PAYED) {
-
-                // Push Forms recapTransaction
-                model.addAttribute("status", "Please confirm your payment");
-                model.addAttribute("firstname", userSelected.getFirstname());
-                model.addAttribute("lastname", userSelected.getLastname());
-                model.addAttribute("email", userSelected.getEmail());
-                model.addAttribute("displayBtnPay", true);
-                transaction.setContactId(userSelected.getId());
-
-                // credit beneficiary
-                creditBeneficiary(balanceUserSelected, amountTransactionFinal, userSelected, transaction);
-
-                // Debit Payer
-                debitPayer(balanceUserPayer, amountTotalCommission, userPayer, transaction);
-
-                //Save Transaction
-                transactionProxy.saveTransaction(transaction);
-
-            }
-        }
-
-        if (typePayment == 2 && PAYED) {
-            // Payment Type Rib
-            transaction.setTransactionCommissionAmount(amountCommissionFinal); // Push amount commission in forms recapTransaction
-            transaction.setTransactionTotalAmount(amountTotalCommission); // Push amount in forms recapTransaction
-            model.addAttribute("status", "Please confirm your payment with Rib");
-
-            // Push Forms
-            model.addAttribute("firstname", userSelected.getFirstname());
-            model.addAttribute("lastname", userSelected.getLastname());
-            model.addAttribute("email", userSelected.getEmail());
-            transaction.setTransactionTotalAmount(amountTotalCommission);
-            model.addAttribute("displayBtnPay", true);
-
-            // credit beneficiary
-            creditBeneficiary(balanceUserSelected, amountTransactionFinal, userSelected, transaction);
-
-            // load Transaction and push list in forms
-            model.addAttribute("listTransaction", listTransaction);
-
-            //Save Transaction
-              transactionProxy.saveTransaction(transaction);
-
-        }
+        // Push Forms recapTransaction
+        model.addAttribute("status", "Please confirm your payment");
+        model.addAttribute("firstname", userSelected.getFirstname());
+        model.addAttribute("lastname", userSelected.getLastname());
+        model.addAttribute("email", userSelected.getEmail());
+        model.addAttribute("description", transaction.getDescription());
+        model.addAttribute("transactionAmount", transaction.getTransactionAmount());
+        model.addAttribute("transactionCommissionAmount", transaction.getTransactionCommissionAmount());
+        model.addAttribute("transactionTotalAmount", transaction.getTransactionTotalAmount());
+        RESULT_TRANSACTION = transaction;
     }
 
-    public void recupInfo(){}
-
-    public void payment(){}
-
-    public void creditBeneficiary(double balanceUserSelected, double amountTransactionFinal, User userSelected, Transaction transaction) {
+    public void creditUserBeneficiary(Transaction transaction) {
+        double amountTransactionFinal = transaction.getTransactionAmount(); // get amount credit
+        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
+        double balanceUserSelected = userSelected.getBalance(); // get balance user selected
 
         // Update Beneficiary
         double amountBalanceUserSelected = balanceUserSelected + amountTransactionFinal;
@@ -148,11 +194,16 @@ public class TransactionService {
 
     }
 
-    public void debitPayer(double balancePayer, double amountTotalCommission, User userPayer, Transaction transaction) {
+    public void debitPayer(Transaction transaction) {
+
+        User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
+        double balancePayer = userPayer.getBalance();
+        double amountTotalWithCommission = transaction.getTransactionTotalAmount();
 
         // Update Payer
-        double balancePayerResult = balancePayer - amountTotalCommission;
+        double balancePayerResult = balancePayer - amountTotalWithCommission;
         userService.updateUser(userPayer.getId(), Math.round(balancePayerResult * 100.0) / 100.0);
+        saveTransaction(transaction);
 
     }
 
@@ -172,40 +223,6 @@ public class TransactionService {
         return userSelected;
     }
 
-    public void transactionServiceGet(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); // get email user authenticate
-        EMAILUSER_AUTHENTICATE = auth.getName();
-        User user = userService.getUserByEmail(EMAILUSER_AUTHENTICATE);
-        int userAuthId = user.getId();
-        String strList = contactService.listOfContact(userAuthId);
-        String strListTransaction = getListTransaction(userAuthId);
-
-        double balanceUser = user.getBalance();
-        List<String> listContact = new ArrayList<>();
-        List<String> listTransaction = new ArrayList<>();
-        model.addAttribute("userEmail", EMAILUSER_AUTHENTICATE); // push name authenticate
-        model.addAttribute("balance", balanceUser + " €"); // push balance user
-
-        // Object result list of contact
-        JSONArray ja = new JSONArray(strList);
-        for (Object o : ja) {
-            CDL.rowToString(ja);
-            listContact.add((String) o);
-            model.addAttribute("list", listContact); // push list contact
-        }
-
-        Transaction transaction = new Transaction();
-        model.addAttribute("transaction", transaction);
-
-        JSONArray jaTransaction = new JSONArray(strListTransaction);
-        for (Object obj : jaTransaction) {
-            CDL.rowToString(jaTransaction);
-            listTransaction.add((String) obj);
-            model.addAttribute("transactionList", listTransaction); // push list transaction
-        }
-
-    }
-
     public void saveTransaction(Transaction transaction) {
         transactionProxy.saveTransaction(transaction);
     }
@@ -213,4 +230,5 @@ public class TransactionService {
     public String getListTransaction(Integer userId) {
         return transactionProxy.getTransaction(userId);
     }
+
 }

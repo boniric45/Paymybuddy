@@ -1,6 +1,7 @@
 package fr.boniric.paymybuddy.api.service;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
+import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.repository.TransactionRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +32,20 @@ public class TransactionService {
     public List<String> getAllTransactionById(int idUser) {
         List<String> transactionList = new ArrayList<>();
         Iterable<Transaction> transactions = getAllTransaction();
+        Iterable<User> userIterable;
 
         //Search transaction for user ID
         for (Transaction tr : transactions) {
+            int transactionAmount = (int) tr.getTransactionAmount(); // parse cast int
+            userIterable = userService.getUserById(tr.getContactId());
+            transactionRepository.findAllById(Collections.singleton(idUser));
+
             if (tr.getUserId() == idUser) {
+                for (User user : userIterable){
+                   transactionList.add(user.getFirstname()+"-"+tr.getDescription()+"-"+ transactionAmount+" €");
+                }
 
-                transactionRepository.findAllById(Collections.singleton(idUser));
-                transactionList.add(tr.getListEmail() + " - " + tr.getTransactionAmount() + " €");
             }
-
         }
 
         return transactionList;
