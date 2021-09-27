@@ -36,25 +36,9 @@ public class TransactionController {
     public String loginToTransfer(HttpServletRequest request, Model model) {
         transactionService.pushNewLoginToTransfer(model);
         System.out.println("pushNewLoginToTransfer Web Call");
-
-        int page = 1; //default page number is 1 (yes it is weird)
-        int size = 5; //default page size is 5
-
-        if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
-            page = Integer.parseInt(request.getParameter("page")) - 1;
-        }
-
-        if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-            size = Integer.parseInt(request.getParameter("size"));
-        }
-
         model.addAttribute("rows", transactionService.LIST_TRANSACTION);
-
-
-
         return "/transfer";
     }
-
 
 
     @PostMapping(value = "/transfer")
@@ -73,19 +57,21 @@ public class TransactionController {
         if (transactionService.RELOADING) {
             transactionService.creditUserBeneficiary(transaction); // Credit User without débit
             transactionService.saveTransaction(transaction); // Save transaction
+
         } else {
             transactionService.creditUserBeneficiary(transaction); // Credit User
             transactionService.debitPayer(transaction); // Debit User Payer
         }
         transactionService.pushNewLoginToTransfer(model);
+        model.addAttribute("rows", transactionService.LIST_TRANSACTION);
         return "/transfer";
     }
 
     @PostMapping(value = "/recapTransaction", params = "action=Cancel")
     public String recapTransactionCancel(Model model) {
-
         // click Cancel User
         transactionService.pushNewLoginToTransfer(model);
+        model.addAttribute("rows", transactionService.LIST_TRANSACTION);
         return "/transfer";
     }
 
