@@ -1,6 +1,5 @@
 package fr.boniric.paymybuddy.web.controller;
 
-
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.service.ContactService;
 import fr.boniric.paymybuddy.web.service.UserService;
@@ -87,10 +86,7 @@ public class UserController {
                     userIT.setBalance(amountTransactionRound);
                     userService.saveUser(userIT);
                 }
-
-        }
-
-
+            }
         }
     }
 }

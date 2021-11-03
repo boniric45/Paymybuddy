@@ -81,8 +81,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-
-
 ALTER TABLE public.Transaction ADD CONSTRAINT contact_transaction_fk
 FOREIGN KEY (contact_id, users_id)
 REFERENCES public.Contact (contact_id, users_id)
