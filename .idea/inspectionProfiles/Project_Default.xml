@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="42">
+          <list size="43">
             <item index="0" class="java.lang.String" itemvalue="xsi:schemalocation" />
             <item index="1" class="java.lang.String" itemvalue="th:field" />
             <item index="2" class="java.lang.String" itemvalue="th:action" />
@@ -47,6 +47,7 @@
             <item index="39" class="java.lang.String" itemvalue="th:href" />
             <item index="40" class="java.lang.String" itemvalue="th:style" />
             <item index="41" class="java.lang.String" itemvalue="th:alt-title" />
+            <item index="42" class="java.lang.String" itemvalue="," />
           </list>
         </value>
       </option>
@@ -55,7 +56,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="16">
+          <list size="20">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -72,6 +73,10 @@
             <item index="13" class="java.lang.String" itemvalue="li" />
             <item index="14" class="java.lang.String" itemvalue="th:block" />
             <item index="15" class="java.lang.String" itemvalue="tr" />
+            <item index="16" class="java.lang.String" itemvalue="table" />
+            <item index="17" class="java.lang.String" itemvalue="th:each" />
+            <item index="18" class="java.lang.String" itemvalue="tbody" />
+            <item index="19" class="java.lang.String" itemvalue="body" />
           </list>
         </value>
       </option>

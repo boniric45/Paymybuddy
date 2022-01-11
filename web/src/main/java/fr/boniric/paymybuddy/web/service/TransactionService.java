@@ -1,27 +1,28 @@
 package fr.boniric.paymybuddy.web.service;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
+import fr.boniric.paymybuddy.web.model.TransactionDto;
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.repository.TransactionProxy;
 import lombok.Data;
 import org.json.CDL;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Service
 public class TransactionService {
     public Transaction RESULT_TRANSACTION;
-    public  List<String> LIST_TRANSACTION = new ArrayList<>();
+    public List<String> LIST_TRANSACTION = new ArrayList<>();
+    public List<TransactionDto> LIST_TRANSACTIONDTO = new ArrayList<>();
     public Boolean RELOADING = false;
     @Autowired
     UserService userService;
@@ -42,7 +43,6 @@ public class TransactionService {
         String strList = contactService.listOfContact(userAuthId); // get Listcontact
         String strListTransaction = getListTransaction(userAuthId); // get ListTransaction
 
-
         double balanceUser = user.getBalance(); // get balance user authenticate
 
         // Object result list of contact by user authenticate
@@ -57,14 +57,20 @@ public class TransactionService {
 
         // Object result list transaction by user authenticate
         List<String> listTransaction = new ArrayList<>();
-        String[] rows;
+        List<TransactionDto> transactionDtoList = LIST_TRANSACTIONDTO;
+          String[] rows;
         JSONArray jaTransaction = new JSONArray(strListTransaction);
+        JSONObject jsonObject = new JSONObject();
+
         for (Object obj : jaTransaction) {
             CDL.rowToString(jaTransaction);
             String row = obj.toString();
             rows = row.split("-");
             listTransaction.addAll(Arrays.asList(rows));
+            TransactionDto transactionDto = new TransactionDto(rows[0],rows[1],rows[2]);
+            transactionDtoList.addAll(Collections.singleton(transactionDto));
         }
+
 
         // push news in forms transfer
         model.addAttribute("transaction", transaction);
@@ -78,7 +84,6 @@ public class TransactionService {
 
 
     }
-
 
 
     public String pushNewsTransferToRecapTransaction(Transaction transaction, Model model) {

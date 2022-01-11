@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="https://www.thymeleaf.org ">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,15 +10,16 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
 
-    <title>Pay My Buddy </title>
-    <style>
+    <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
 
+    <title>Pay My Buddy </title>
+</head>
+<style>
 .content{
 	display: block;
 	margin-top: 25px;
 	margin-left: auto;
 	margin-right: auto;
-
 	width: 800px;
   	height: 700px;
   	border: 3px solid  #ccc;
@@ -48,18 +46,21 @@
 .nav{
 	display: flex;
 	justify-content: flex-end;
+	margin-bottom: 0px;
 	margin-left: 0px;
 	font-family: Comic sans, sans-serif; 
 	font-size:16px;
 	font-weight: 600;
 }
-
+.navbar{
+	margin-bottom: 0px;
+}
 
 .btn-submit{
 	display: flex;
 	justify-content: left;
 	margin-left: 25px;
-	margin-top: 25px;
+	margin-top: 0px;
 	height: 35px;
 }
 
@@ -92,7 +93,7 @@
 .box-send-money{
 	justify-content: center;
 	padding-top:20px;
-	padding-bottom:20px;
+	padding-bottom:5px;
 	padding-left:10px;
 	padding-right:30px;
 	margin-left: 50px;
@@ -117,7 +118,6 @@
 margin-left: 100px;
 margin-right: 10px;
 margin-top: 65px;
-
 }
 
 .form-amount{
@@ -141,23 +141,12 @@ margin-top: 65px;
 }
 
 .my-transactions{
-	margin-top: 45px;
+	margin-top: 5px;
 	margin-left: 55px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 	font-family: Comic sans, sans-serif;
 	font-size:16px;
 	font-weight: 600;
-
-}
-
-.list-contact{
-	width: 690px;
-	height: 280px;
-	padding:0px;
-	border: 2px solid  #000;
-	margin-left: 45px;
-	margin-right: 380px;
-	margin-bottom:0px;
 }
 
 .auth{
@@ -200,15 +189,7 @@ font-weight: 600;
 .btnradio{
 display:flex;
 justify-content:left;
-
 margin-left:30px;
-}
-
-.pagination{
-display:flex;
-justify-content:center;
-margin-top:150px;
-padding-right:30px;
 }
 
 .page-item{
@@ -242,28 +223,69 @@ align-items:center;
 height:75px;
 }
 
-.list-label{
+.list-contact{
 display:flex;
-outline:solid;
-outline-color: rgb(92, 185, 92);
-border-color: rgb(92, 185, 92);
+flex-direction:row;
+flex-wrap: wrap;
 justify-content: center;
-width:226px;
-height:70px;
-background-color: rgb(92, 185, 92);
+	width: 690px;
+	height: 280px;
+	padding:0px;
+	border: 2px solid  #000;
+	margin-left: 45px;
+	margin-right: 380px;
+	margin-bottom:0px;
+}
+
+
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+	background-color: rgb(245, 245, 245);
+}
+
+.container{
+    justify-content:center;
+	margin-left: 55px;
+    width:90%;
 	font-family: AppleGothic, sans-serif;
-	font-size:12px;
+	font-size:14px;
     font-weight:600;
+    color:black;
+}
+
+.pagination-info{
+display:none;
+};
+
+table.table tr {
+    font-color:white !important;
+    font-weight:600;
+     border: 3px solid black;
+}
+
+thead tr{
+    background-color: rgb(92, 185, 92);
+	font-family: AppleGothic, sans-serif;
+	font-size:16px;
+	border-bottom:hidden;
     color:white;
 }
 
-    </style>
-</head>
+.table.no-border tr td, .table.no-border tr th {
+    border-width: 0;
+    border-height:0;
+    line-height:50px;
+}
 
-<body>
+.table{
+padding:0px;
+border: 2px solid black;
+}
+
+
+</style>
 
 <ul class="nav">
-
     <div id="img">
         <img src="/images/logoPaymybuddy.png" width="140px" height="45px" alt=Image/>
         <p class="auth" data-th-text="'Authenticated as : ' + ${userEmail}"></p>
@@ -297,72 +319,74 @@ background-color: rgb(92, 185, 92);
         </nav>
     </div>
 </nav>
+<html>
 
-<div class="content">
-
-    <div class="btn-submit">
-        <p class="send_money" data-th-text="'Send Money - Account: ' + ${balance}"></p>
-        <a class="btn btn-primary" href="/addconnection" role="button">Add Connection</a>
-    </div>
-    <div class="box-send-money">
-        <form action="/transfer" method="post" th:action="@{/transfer}" th:object="${transaction}">
-
-            <div class="btnradio">
-                <div class="btnAccount"><input type="radio" th:field="*{paymentTypeId}" value="1" checked="checked" required/> Account</div>
-                <div class="btnRib"><input type="radio" th:field="*{paymentTypeId}" value="2"/> Rib</div>
-            </div>
-            <select required class="form-select form-select-lg mb-3" th:field="*{listEmail}">
-                <option selected value="">Select A Connection:</option>
-                <option th:each="p : ${list}" th:value="${p}" th:text="${p}"></option>
-            </select>
-
-            <input type="number" class="form-amount" th:field="*{transactionAmount}"  placeholder="0 €" th:required/>
-            <!--            <input type="number" class="form-amount" th:id="${transactionAmount}" name="${transactionAmount}" value="${transactionAmount}"  placeholder="0 €" required/>-->
-            <button type="submit" class="btn btn-success">Pay</button>
-            <input type="text" class="form-description" th:field="*{description}"  th:placeholder="Description" required/>
-        </form>
-    </div>
-    <p class="lab" type="text" data-th-text="${statut}"></p>
-
-    <div class="my-transactions">
-        My Transactions
-    </div>
-
-    <div class="list-contact">
-        <ul class="list-group-item">
-            <li class="list-label list-group-item">Connections</li>
-            <li class="list-label list-group-item">Description</li>
-            <li class="list-label list-group-item">Amount</li>
-        </ul>
-
-        <div class="list-group-item-row"
-            th:each="l ,state : ${rows}"
-             th:text="${l}" ></div>
-    </div>
-
-
-    <nav aria-label="Page navigation Transaction">
-        <ul class="pagination">
-            <li class="page-item" >
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<body class="content">
+<div class="btn-submit">
+    <p class="send_money" data-th-text="'Send Money - Account: ' + ${balance}"></p>
+    <a class="btn btn-primary" href="/addconnection" role="button">Add Connection</a>
 </div>
+
+<div class="box-send-money">
+    <form action="/transfer" method="post" th:action="@{/transfer}" th:object="${transaction}">
+
+        <div class="btnradio">
+            <div class="btnAccount"><input type="radio" th:field="*{paymentTypeId}" value="1" checked="checked"
+                                           required/> Account
+            </div>
+            <div class="btnRib"><input type="radio" th:field="*{paymentTypeId}" value="2"/> Rib</div>
+        </div>
+
+        <select required class="form-select form-select-lg mb-3" th:field="*{listEmail}">
+            <option selected value="">Select A Connection:</option>
+            <option th:each="p : ${list}" th:value="${p}" th:text="${p}"></option>
+        </select>
+
+        <input type="number" class="form-amount" th:field="*{transactionAmount}" placeholder="0 €" th:required/>
+        <button type="submit" class="btn btn-success">Pay</button>
+        <input type="text" class="form-description" th:field="*{description}" th:placeholder="Description" required/>
+    </form>
+</div>
+
+<p class="lab" type="text" data-th-text="${statut}"></p>
+<div class="my-transactions">My Transactions</div>
+
+<section class="container" align="center">
+    <div class="row">
+        <table class="table no-border table-striped "
+               data-toggle="table"
+               data-pagination="true"
+               data-page-size="3"
+               data-height="333">
+            <thead class="head">
+            <tr>
+                <th data-align="center">Connections</th>
+                <th data-align="center">Description</th>
+                <th data-align="center">Montant</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="transactions ,state : ${rows}">
+                <tr>
+                    <th th:text="${transactions.connections}"></th>
+                    <th th:text="${transactions.description}"></th>
+                    <th th:text="${transactions.amount}"></th>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 
 </body>
 </html>

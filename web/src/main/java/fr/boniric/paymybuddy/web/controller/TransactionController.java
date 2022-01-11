@@ -1,6 +1,7 @@
 package fr.boniric.paymybuddy.web.controller;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
+import fr.boniric.paymybuddy.web.model.TransactionDto;
 import fr.boniric.paymybuddy.web.service.ContactService;
 import fr.boniric.paymybuddy.web.service.TransactionService;
 import fr.boniric.paymybuddy.web.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ public class TransactionController {
     public String loginToTransfer(HttpServletRequest request, Model model) {
         transactionService.pushNewLoginToTransfer(model);
         System.out.println("pushNewLoginToTransfer Web Call");
-        model.addAttribute("rows", transactionService.LIST_TRANSACTION);
+        model.addAttribute("rows", transactionService.LIST_TRANSACTIONDTO);
         return "/transfer";
     }
 
@@ -57,7 +59,6 @@ public class TransactionController {
         if (transactionService.RELOADING) {
             transactionService.creditUserBeneficiary(transaction); // Credit User without débit
             transactionService.saveTransaction(transaction); // Save transaction
-
         } else {
             transactionService.creditUserBeneficiary(transaction); // Credit User
             transactionService.debitPayer(transaction); // Debit User Payer
