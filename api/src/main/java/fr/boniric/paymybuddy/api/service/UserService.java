@@ -19,17 +19,22 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Iterable<User> getUserById(Integer authId) {
+    public Iterable<User> getUserById(long authId) {
         return userRepository.getUserById(authId);
     }
 
-    public Iterable<User> getAllUser() {
-        return userRepository.findAll();
+    public Iterable<User> getAllUser() { return userRepository.findAll(); }
+
+    public void delete(User user){
+        userRepository.delete(user);
     }
 
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
+    public void deleteUserById(long idUser) {
+        userRepository.deleteById(idUser);
+        }
 }
 

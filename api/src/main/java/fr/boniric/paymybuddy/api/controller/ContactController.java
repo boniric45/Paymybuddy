@@ -1,7 +1,6 @@
 package fr.boniric.paymybuddy.api.controller;
 
 import fr.boniric.paymybuddy.api.model.Contact;
-import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.service.ContactService;
 import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @RestController
 public class ContactController {
@@ -31,9 +32,9 @@ public class ContactController {
     }
 
     /**
-     * Create - Add a new list of contact
+     * Get List of Contact
      *
-     * @return The association contact saved
+     * @return List
      */
     @GetMapping("/contact/{userAuthId}")
     public List<String> readContact(@PathVariable("userAuthId") Integer userIdWrite, Model model) {
@@ -41,9 +42,24 @@ public class ContactController {
         return contactService.getListContact(userIdWrite);
     }
 
+    /**
+     * Get All Contact
+     *
+     * @return Contact
+     */
     @GetMapping("/contact/all")
     public Iterable<Contact> getAllContact() {
         return contactService.getAllContact();
+    }
+
+    /**
+     * delete Contact by Id
+     *
+     */
+    @DeleteMapping("/deleteContact/{id}")
+    public void deleteContactById(@PathVariable("id") int id){
+        Contact contact = contactService.getContactByUserId(id).get();
+            contactService.delete(contact);
     }
 
 }

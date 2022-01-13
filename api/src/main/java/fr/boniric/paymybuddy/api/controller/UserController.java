@@ -19,10 +19,8 @@ public class UserController {
      * @param user An object user
      * @return The user object saved
      */
-
     @PostMapping("/user")
     public User register(@RequestBody User user) {
-
         if (userService.getUserByEmail(user.getEmail()).isPresent()) {
             System.out.println(" Email déjà en base ");
             return null;
@@ -54,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Iterable<User> getUserFindById(@PathVariable("id") Integer userId) {
+    public Iterable<User> getUserFindById(@PathVariable("id") long userId) {
         return userService.getUserById(userId);
     }
 
@@ -68,14 +66,26 @@ public class UserController {
     @PutMapping("/updateBalance/{id}/{amountTransaction}")
     public void updateUser(@PathVariable("id") Integer id, @PathVariable("amountTransaction") double amountTransaction) {
         Iterable<User> userId = userService.getUserById(id);
+        if (userId != null) {
         for (User userIT : userId) {
-            if (userIT != null) {
                 userIT.setBalance(amountTransaction);
+                System.out.println(userIT);
                 userService.saveUser(userIT);
             }
         }
     }
-}
+
+    /**
+     *     Delete User By Id
+     *
+     * @param id                The id of the user
+     */
+    @DeleteMapping("/deleteUser/{id}")
+    public void deleteUser(@PathVariable("id") long id) {
+       userService.deleteUserById(id);
+        }
+    }
+
 
 
 

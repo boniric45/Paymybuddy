@@ -1,0 +1,154 @@
+package fr.boniric.paymybuddy.api.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.boniric.paymybuddy.api.model.User;
+import fr.boniric.paymybuddy.api.service.UserService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class TestUserController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @BeforeEach
+    public void init() {
+        if (userService.getUserByEmail("test@test.fr").isPresent()) {
+            User userResult = userService.getUserByEmail("test@test.fr").get();
+            userService.delete(userResult);
+        }
+
+    }
+
+    @Test
+    public void testAddNewUser() throws Exception {
+
+        User user = new User(null, "Test12345!!", "jon", "john", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/user")
+                        .content(asJsonString(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists());
+    }
+
+    @Test
+    public void testGetAllUser() throws Exception {
+
+        // Given
+        User user = new User(null, "Test12345..", "jon", "jon", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+
+        // When
+        userService.saveUser(user);
+        List<Iterable<User>> iterableList = Collections.singletonList(userService.getAllUser());
+
+        // Then
+        mockMvc.perform(get("/user/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("jon")));
+
+        Assertions.assertNotNull(iterableList);
+    }
+
+    @Test
+    public void testGetUserByEmail() throws Exception {
+
+        // Given
+        User user = new User(null, "Test12345..", "jon", "jon", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+        List<Iterable<User>> iterableList = Collections.singletonList(userService.getAllUser());
+
+        // When
+        userService.saveUser(user);
+
+        // Then
+        mockMvc.perform(get("/user/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("jon")));
+
+        Assertions.assertNotNull(iterableList);
+    }
+
+    @Test
+    public void testGetUserById() throws Exception {
+        // Given
+        User user = new User(null, "Test12345!!", "jon", "john", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+
+        // When
+        userService.saveUser(user);
+        long userId = userService.getUserByEmail("test@test.fr").get().getId();
+
+        // Then
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/users/{id}", userId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("jon")))
+                .andExpect(content().string(containsString("10 th Street")))
+                .andExpect(content().string(containsString("New York")));
+    }
+
+
+    @Test
+    public void testUpdateBalanceUser() throws Exception {
+        User user = new User(null, "Test12345!!", "jon", "john", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+
+        userService.saveUser(user);
+        long userId = userService.getUserByEmail("test@test.fr").get().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/updateBalance/{id}/{amountTransaction}", userId, 20)
+                        .content(asJsonString(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        User user2 = userService.getUserByEmail("test@test.fr").get();
+        Assertions.assertEquals(user2.getBalance(), 20);
+    }
+
+    @Test
+    public void testDeleteUserById() throws Exception {
+        User user = new User(null, "Test12345!!", "jon", "john", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
+
+        userService.saveUser(user);
+        long userId = userService.getUserByEmail("test@test.fr").get().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteUser/{id}", userId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").doesNotExist());
+    }
+}

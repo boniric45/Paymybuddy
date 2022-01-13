@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityApiConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private DataSource dataSource;
 
@@ -42,9 +43,11 @@ public class SecurityApiConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.GET, "/inscription").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/contact/**").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/contact/**").permitAll()
+                .mvcMatchers(HttpMethod.DELETE, "/deleteContact/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/transaction/**").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/transaction/**").permitAll()
                 .mvcMatchers(HttpMethod.PUT, "/transaction/**").permitAll()
+                .mvcMatchers(HttpMethod.DELETE, "/deleteUser/**").permitAll()
                 .anyRequest()
                 .authenticated();
 

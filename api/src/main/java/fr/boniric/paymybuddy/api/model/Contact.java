@@ -25,4 +25,8 @@ public class Contact {
     @Column(name = "users_id")
     private Integer usersId;
 
+    public Contact(Integer contactId, Integer usersId) {
+        this.contactId = contactId;
+        this.usersId = usersId;
+    }
 }

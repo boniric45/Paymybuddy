@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Service
@@ -20,7 +21,7 @@ public class ContactService {
     @Autowired
     UserService userService;
 
-    // List ok
+
     public List<String> getListContact(int authUserId){
     List<String> listContact = new ArrayList<>();
     Iterable<Contact> userContact = getAllContact();
@@ -37,9 +38,14 @@ public class ContactService {
     return listContact;
 }
 
+public Optional<Contact> getContactByUserId(int userId){
+        return contactRepository.findById(userId);
+}
+
     public Iterable<Contact> getAllContact() { return contactRepository.findAll(); }
 
     public void saveContact(Contact contact) { contactRepository.save(contact); }
 
+    public void delete(Contact contact) {contactRepository.delete(contact); }
 }
 
