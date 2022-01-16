@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class Contact {
 
-
     private Integer contactId;
 
     private Integer usersId;

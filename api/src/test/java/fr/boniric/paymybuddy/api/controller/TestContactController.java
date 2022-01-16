@@ -5,17 +5,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import fr.boniric.paymybuddy.api.model.Contact;
 import fr.boniric.paymybuddy.api.model.User;
-import fr.boniric.paymybuddy.api.repository.ContactRepository;
 import fr.boniric.paymybuddy.api.service.ContactService;
 import fr.boniric.paymybuddy.api.service.UserService;
-import org.junit.After;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -32,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestContactController {
 
     @Autowired
@@ -43,16 +40,16 @@ public class TestContactController {
     @Autowired
     private UserService userService;
 
-
     @AfterEach
     public void init() {
-             User userResult = userService.getUserByEmail("test@test.fr").get();
-            User userResult2 = userService.getUserByEmail("test2@test.fr").get();
-                userService.delete(userResult);
-                userService.delete(userResult2);
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        User userResult2 = userService.getUserByEmail("test2@test.fr").get();
+        userService.delete(userResult);
+        userService.delete(userResult2);
     }
 
     @Test
+    @Order(1)
     public void testCreateContact() throws Exception {
 
         // Given
@@ -83,6 +80,7 @@ public class TestContactController {
     }
 
     @Test
+    @Order(2)
     public void testGetListContactById() throws Exception {
 
         // Given
@@ -119,6 +117,7 @@ public class TestContactController {
     }
 
     @Test
+    @Order(3)
     public void testGetListAllContact() throws Exception {
 
         // Given
@@ -155,6 +154,7 @@ public class TestContactController {
     }
 
     @Test
+    @Order(4)
     public void testDeleteContactById() throws Exception {
         // Given
         User user1 = new User(null, "Test12345!!", "jon", "jon", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
@@ -178,12 +178,10 @@ public class TestContactController {
             }
         }
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteContact/{id}",contactId))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteContact/{id}", contactId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contactId").doesNotExist());
-
     }
-
 
 }
 

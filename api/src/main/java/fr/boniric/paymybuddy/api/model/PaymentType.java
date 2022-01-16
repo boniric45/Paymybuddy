@@ -20,12 +20,8 @@ public class PaymentType {
     @Column(name = "payment_type_id")
     private Long id;
 
-    @Column(name = "payment_type_rib")
-    private String rib;
-
-    @Column(name = "payment_type_balance")
-    private String account;
-
+    @Column(name = "payment_type")
+    private String payment_type;
 
 
 }

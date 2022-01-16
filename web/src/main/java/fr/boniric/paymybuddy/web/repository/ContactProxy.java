@@ -18,6 +18,7 @@ public class ContactProxy {
     private CustomProperties props;
 
     public void saveContact(Contact contact) {
+
         String baseApiUrl = props.getApiURL();
         String getContactURL = baseApiUrl + "/contact";
 

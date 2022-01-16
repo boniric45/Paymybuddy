@@ -23,13 +23,12 @@ public class UserService {
         userProxy.createUser(user);
     }
 
-
     public Iterable<User> getUserById(int userId) {
         return Collections.singleton(userProxy.getUserById(userId));
     }
 
-public void updateUser(Integer userId, double amountTransaction){
-        userProxy.updateUser(userId,amountTransaction);
-}
+    public void updateUser(Integer userId, double amountTransaction) {
+        userProxy.updateUser(userId, amountTransaction);
+    }
 
 }

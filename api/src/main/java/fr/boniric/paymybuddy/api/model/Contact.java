@@ -29,4 +29,5 @@ public class Contact {
         this.contactId = contactId;
         this.usersId = usersId;
     }
+
 }

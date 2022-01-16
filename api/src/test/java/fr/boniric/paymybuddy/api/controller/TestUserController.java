@@ -17,12 +17,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,15 +42,6 @@ public class TestUserController {
         }
     }
 
-    @BeforeEach
-    public void init() {
-        if (userService.getUserByEmail("test@test.fr").isPresent()) {
-            User userResult = userService.getUserByEmail("test@test.fr").get();
-            userService.delete(userResult);
-        }
-
-    }
-
     @Test
     public void testAddNewUser() throws Exception {
 
@@ -63,6 +54,9 @@ public class TestUserController {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists());
+
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        userService.deleteUserById(userResult.getId());
     }
 
     @Test
@@ -81,6 +75,9 @@ public class TestUserController {
                 .andExpect(content().string(containsString("jon")));
 
         Assertions.assertNotNull(iterableList);
+
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        userService.deleteUserById(userResult.getId());
     }
 
     @Test
@@ -99,6 +96,9 @@ public class TestUserController {
                 .andExpect(content().string(containsString("jon")));
 
         Assertions.assertNotNull(iterableList);
+
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        userService.deleteUserById(userResult.getId());
     }
 
     @Test
@@ -119,8 +119,10 @@ public class TestUserController {
                 .andExpect(content().string(containsString("jon")))
                 .andExpect(content().string(containsString("10 th Street")))
                 .andExpect(content().string(containsString("New York")));
-    }
 
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        userService.deleteUserById(userResult.getId());
+    }
 
     @Test
     public void testUpdateBalanceUser() throws Exception {
@@ -138,16 +140,19 @@ public class TestUserController {
 
         User user2 = userService.getUserByEmail("test@test.fr").get();
         Assertions.assertEquals(user2.getBalance(), 20);
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+        userService.deleteUserById(userResult.getId());
     }
 
     @Test
     public void testDeleteUserById() throws Exception {
+
         User user = new User(null, "Test12345!!", "jon", "john", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
-
         userService.saveUser(user);
-        long userId = userService.getUserByEmail("test@test.fr").get().getId();
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteUser/{id}", userId))
+        User userResult = userService.getUserByEmail("test@test.fr").get();
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteUser/{id}", userResult.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").doesNotExist());
     }

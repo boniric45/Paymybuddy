@@ -24,11 +24,14 @@ public class TransactionService {
     public List<String> LIST_TRANSACTION = new ArrayList<>();
     public List<TransactionDto> LIST_TRANSACTIONDTO = new ArrayList<>();
     public Boolean RELOADING = false;
+
     @Autowired
     UserService userService;
+
     @Autowired
     TransactionProxy transactionProxy;
     private String EMAILUSER_AUTHENTICATE;
+
     @Autowired
     private ContactService contactService;
 
@@ -38,6 +41,8 @@ public class TransactionService {
         EMAILUSER_AUTHENTICATE = auth.getName(); // get email authenticate
         User user = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get user by email
         Transaction transaction = new Transaction();
+        LIST_TRANSACTIONDTO.clear();;
+        LIST_TRANSACTION.clear();
 
         int userAuthId = user.getId(); // get userId
         String strList = contactService.listOfContact(userAuthId); // get Listcontact
@@ -57,10 +62,11 @@ public class TransactionService {
 
         // Object result list transaction by user authenticate
         List<String> listTransaction = new ArrayList<>();
+
         List<TransactionDto> transactionDtoList = LIST_TRANSACTIONDTO;
           String[] rows;
         JSONArray jaTransaction = new JSONArray(strListTransaction);
-        JSONObject jsonObject = new JSONObject();
+
 
         for (Object obj : jaTransaction) {
             CDL.rowToString(jaTransaction);
@@ -80,11 +86,9 @@ public class TransactionService {
         model.addAttribute("balance", balanceUser + " €"); // push balance user
 
         LIST_TRANSACTION = listTransaction;
-//        model.addAttribute("rows", listTransaction); // push list transaction
-
+        model.addAttribute("rows", listTransaction); // push list transaction
 
     }
-
 
     public String pushNewsTransferToRecapTransaction(Transaction transaction, Model model) {
 

@@ -42,7 +42,6 @@ public class TransactionController {
         return "/transfer";
     }
 
-
     @PostMapping(value = "/transfer")
     public String transferToRecapTransaction(@ModelAttribute("transaction") Transaction transaction, Model model) {
         transactionService.pushNewLoginToTransfer(model);

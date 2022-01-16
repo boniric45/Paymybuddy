@@ -21,31 +21,39 @@ public class ContactService {
     @Autowired
     UserService userService;
 
+    /**
+     * @param authUserId
+     * @return List Contact Connexion of Authenticate User
+     */
+    public List<String> getListContact(int authUserId) {
+        List<String> listContact = new ArrayList<>();
+        Iterable<Contact> userAllContact = getAllContact();
 
-    public List<String> getListContact(int authUserId){
-    List<String> listContact = new ArrayList<>();
-    Iterable<Contact> userContact = getAllContact();
-    Iterable<User> userFirstname = userService.getAllUser();
-    for (Contact contact : userContact){
-        if (contact.getUsersId().equals(authUserId)){
-            for (User user : userFirstname){
-                if (user.getId().equals(contact.getContactId())){
-                   listContact.add(user.getFirstname()+" "+user.getLastname()+": "+user.getEmail());
-              }
+        for (Contact contact : userAllContact) {
+            if (contact.getUsersId() == authUserId) {
+                Iterable<User> user = userService.getUserById(contact.getContactId());
+                for (User result : user) {
+                    listContact.add(result.getFirstname() + " " + result.getLastname() + ": " + result.getEmail());
+                }
             }
         }
+        return listContact;
     }
-    return listContact;
-}
 
-public Optional<Contact> getContactByUserId(int userId){
+    public Optional<Contact> getContactByUserId(int userId) {
         return contactRepository.findById(userId);
-}
+    }
 
-    public Iterable<Contact> getAllContact() { return contactRepository.findAll(); }
+    public Iterable<Contact> getAllContact() {
+        return contactRepository.findAll();
+    }
 
-    public void saveContact(Contact contact) { contactRepository.save(contact); }
+    public void saveContact(Contact contact) {
+        contactRepository.save(contact);
+    }
 
-    public void delete(Contact contact) {contactRepository.delete(contact); }
+    public void delete(Contact contact) {
+        contactRepository.delete(contact);
+    }
 }
 

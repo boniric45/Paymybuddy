@@ -44,10 +44,13 @@ public class TransactionService {
                 for (User user : userIterable){
                    transactionList.add(user.getFirstname()+"-"+tr.getDescription()+"-"+ transactionAmount+" €");
                 }
-
             }
         }
 
         return transactionList;
+    }
+
+    public void deleteTransactionByUserId(int userId){
+        transactionRepository.deleteById(userId);
     }
 }

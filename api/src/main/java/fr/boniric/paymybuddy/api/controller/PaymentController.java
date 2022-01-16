@@ -12,6 +12,11 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
+    /**
+     * @author Eric Boniface
+     *
+     * @return Payment Type
+     */
     @GetMapping("/payment_type")
     public Iterable<PaymentType> getPayment() {
         return paymentService.getPaymentTypeAll();
