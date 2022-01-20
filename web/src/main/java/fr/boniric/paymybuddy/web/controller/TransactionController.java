@@ -63,7 +63,7 @@ public class TransactionController {
             transactionService.debitPayer(transaction); // Debit User Payer
         }
         transactionService.pushNewLoginToTransfer(model);
-        model.addAttribute("rows", transactionService.LIST_TRANSACTION);
+        model.addAttribute("rows", transactionService.LIST_TRANSACTIONDTO);
         return "/transfer";
     }
 
@@ -71,7 +71,7 @@ public class TransactionController {
     public String recapTransactionCancel(Model model) {
         // click Cancel User
         transactionService.pushNewLoginToTransfer(model);
-        model.addAttribute("rows", transactionService.LIST_TRANSACTION);
+        model.addAttribute("rows", transactionService.LIST_TRANSACTIONDTO);
         return "/transfer";
     }
 

@@ -19,7 +19,7 @@ public class ContactService {
     ContactRepository contactRepository;
 
     @Autowired
-    UserService userService;
+     UserService userService;
 
     /**
      * @param authUserId
@@ -55,5 +55,6 @@ public class ContactService {
     public void delete(Contact contact) {
         contactRepository.delete(contact);
     }
+
 }
 

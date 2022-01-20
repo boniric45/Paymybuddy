@@ -55,7 +55,7 @@ public class TestContactController {
         // Given
         User user1 = new User(null, "Test12345!!", "jon", "jon", "10 th Street", "04508", "New York", "0102020202", "test@test.fr", 0, "IBAN", "SWIFT", "user");
         User user2 = new User(null, "Test12345!!", "jeanne", "jon", "10 th Street", "04508", "New York", "0102020202", "test2@test.fr", 0, "IBAN", "SWIFT", "user");
-        String url = "http://localhost:9002/contact/";
+        String url = "http://localhost:9002/contact";
 
         //When
         userService.saveUser(user1);

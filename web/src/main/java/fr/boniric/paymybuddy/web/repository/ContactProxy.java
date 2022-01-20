@@ -15,21 +15,20 @@ import org.springframework.web.client.RestTemplate;
 public class ContactProxy {
 
     @Autowired
-    private CustomProperties props;
+    CustomProperties props;
 
-    public void saveContact(Contact contact) {
-
+    public Contact saveContact(Contact contact) {
         String baseApiUrl = props.getApiURL();
         String getContactURL = baseApiUrl + "/contact";
-
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Contact> request = new HttpEntity<Contact>(contact);
+        HttpEntity<Contact> request = new HttpEntity<>(contact);
         ResponseEntity<Contact> response = restTemplate.exchange(
                 getContactURL,
                 HttpMethod.POST,
                 request,
                 Contact.class);
-        response.getBody();
+        log.debug("Create Contact call " + response.getStatusCode().toString());
+        return response.getBody();
     }
 
     public String listContact(int userAuthId) {
@@ -45,6 +44,5 @@ public class ContactProxy {
 
         return response.getBody();
     }
-
 
 }

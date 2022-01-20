@@ -15,10 +15,10 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 public class ContactController {
 
     @Autowired
-    private ContactService contactService;
+     ContactService contactService;
 
     @Autowired
-    private UserService userService;
+     UserService userService;
 
     /**
      * Create - Add a new contact
@@ -26,9 +26,8 @@ public class ContactController {
      * @return The association contact saved
      */
     @PostMapping("/contact")
-    public Contact saveContact(@RequestBody Contact contact) {
+    public void saveContact(@RequestBody Contact contact) {
         contactService.saveContact(contact);
-        return contact;
     }
 
     /**
@@ -62,6 +61,10 @@ public class ContactController {
             contactService.delete(contact);
     }
 
-    //TODO affichage table ko et Actualisation page après transaction
+    //TODO revoir contrainte base contact, control sur contact déjà présent, revoir page de payment date, merge le P8
+    // Todo quand on paye avec account ne doit pas vider la table des transactions ou reactualiser la page
+    //TODO voir également la page read me photo
+
+
 
 }

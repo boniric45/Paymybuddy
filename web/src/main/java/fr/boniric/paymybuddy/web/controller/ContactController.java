@@ -22,8 +22,8 @@ public class ContactController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userAuthenticate = auth.getName();
         model.addAttribute("userEmail", userAuthenticate); // push Email user authenticate in forms addconnection
-        User user = new User();
-        model.addAttribute("user", user); // push Email contact in forms addconnection
+//        User user = new User();
+        model.addAttribute("user", new User()); // push Email contact in forms addconnection
         return "/addconnection";
     }
 

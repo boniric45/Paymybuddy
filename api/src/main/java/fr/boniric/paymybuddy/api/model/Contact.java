@@ -1,9 +1,6 @@
 package fr.boniric.paymybuddy.api.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,21 +10,24 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "contact")
+@Table(name = "contact", schema = "public")
+@NoArgsConstructor
 public class Contact {
 
     @Id
     @Column(name = "contact_id")
-    private Integer contactId;
+     Integer contactId;
 
     @Column(name = "users_id")
-    private Integer usersId;
+     Integer usersId;
 
-    public Contact(Integer contactId, Integer usersId) {
+    public Contact(int contactId, int usersId) {
         this.contactId = contactId;
         this.usersId = usersId;
     }
+
+
 
 }

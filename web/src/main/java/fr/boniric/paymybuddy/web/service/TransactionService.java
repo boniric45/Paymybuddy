@@ -7,7 +7,6 @@ import fr.boniric.paymybuddy.web.repository.TransactionProxy;
 import lombok.Data;
 import org.json.CDL;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -41,7 +39,7 @@ public class TransactionService {
         EMAILUSER_AUTHENTICATE = auth.getName(); // get email authenticate
         User user = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get user by email
         Transaction transaction = new Transaction();
-        LIST_TRANSACTIONDTO.clear();;
+        LIST_TRANSACTIONDTO.clear();
         LIST_TRANSACTION.clear();
 
         int userAuthId = user.getId(); // get userId
@@ -62,9 +60,8 @@ public class TransactionService {
 
         // Object result list transaction by user authenticate
         List<String> listTransaction = new ArrayList<>();
-
         List<TransactionDto> transactionDtoList = LIST_TRANSACTIONDTO;
-          String[] rows;
+        String[] rows;
         JSONArray jaTransaction = new JSONArray(strListTransaction);
 
 
@@ -73,10 +70,9 @@ public class TransactionService {
             String row = obj.toString();
             rows = row.split("-");
             listTransaction.addAll(Arrays.asList(rows));
-            TransactionDto transactionDto = new TransactionDto(rows[0],rows[1],rows[2]);
+            TransactionDto transactionDto = new TransactionDto(rows[0], rows[1], rows[2]);
             transactionDtoList.addAll(Collections.singleton(transactionDto));
         }
-
 
         // push news in forms transfer
         model.addAttribute("transaction", transaction);
@@ -130,7 +126,6 @@ public class TransactionService {
             else {
                 selector = "/recapTransaction";
                 calculTransactionPushRecapTransaction(model, transaction);
-
             }
         }
 
@@ -209,10 +204,13 @@ public class TransactionService {
         double balancePayer = userPayer.getBalance();
         double amountTotalWithCommission = transaction.getTransactionTotalAmount();
 
-        // Update Payer
-        double balancePayerResult = balancePayer - amountTotalWithCommission;
-        userService.updateUser(userPayer.getId(), Math.round(balancePayerResult * 100.0) / 100.0);
-        saveTransaction(transaction);
+        if (!(balancePayer <= amountTotalWithCommission)) {
+            // Update Payer
+            double balancePayerResult = balancePayer - amountTotalWithCommission;
+            userService.updateUser(userPayer.getId(), Math.round(balancePayerResult * 100.0) / 100.0);
+            saveTransaction(transaction);
+        }
+
 
     }
 

@@ -238,15 +238,12 @@ justify-content: center;
 	margin-bottom:0px;
 }
 
-.table-striped tbody tr:nth-child(odd) td,
-.table-striped tbody tr:nth-child(odd) th {
-	background-color: rgb(245, 245, 245);
-}
 
 .container{
     justify-content:center;
-	margin-left: 55px;
-    width:90%;
+    width:690px;
+    max-height:333px;
+	margin-left: 50px;
 	font-family: AppleGothic, sans-serif;
 	font-size:14px;
     font-weight:600;
@@ -263,12 +260,10 @@ table.table tr {
     border: 3px solid black;
 }
 
-thead tr{
-    background-color: rgb(92, 185, 92);
-	font-family: AppleGothic, sans-serif;
-	font-size:16px;
-	border-bottom:hidden;
-    color:white;
+.table{
+display:table;
+padding:0px;
+border: 2px solid black;
 }
 
 .table.no-border tr td, .table.no-border tr th {
@@ -277,14 +272,18 @@ thead tr{
     line-height:50px;
 }
 
-.table{
-padding:0px;
-border: 2px solid black;
+thead tr{
+    background-color: rgb(92, 185, 92);
+	font-family: AppleGothic, sans-serif;
+	font-size:16px;
+	border-bottom:hidden;
+    color:white;
 }
 
 
-</style>
 
+
+</style>
 <ul class="nav">
     <div id="img">
         <img src="/images/logoPaymybuddy.png" width="140px" height="45px" alt=Image/>
@@ -357,7 +356,7 @@ border: 2px solid black;
                data-toggle="table"
                data-pagination="true"
                data-page-size="3"
-               data-height="333">
+               data-align="center">
             <thead class="head">
             <tr>
                 <th data-align="center">Connections</th>

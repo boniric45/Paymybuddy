@@ -22,7 +22,6 @@ public class TransactionProxy {
 
     public Transaction saveTransaction(Transaction transaction) {
 
-
             String baseApiUrl = props.getApiURL();
             String geTransactionURL =  baseApiUrl+"/transaction";
 
