@@ -42,6 +42,8 @@ public class SecurityApiConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.PUT, "/updateBalance/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/inscription").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/contact/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/listcontact/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/contact/all").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/contact").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/addconnection/**").permitAll()
                 .mvcMatchers(HttpMethod.DELETE, "/deleteContact/**").permitAll()

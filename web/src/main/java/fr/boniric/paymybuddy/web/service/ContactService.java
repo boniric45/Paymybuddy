@@ -1,6 +1,5 @@
 package fr.boniric.paymybuddy.web.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import fr.boniric.paymybuddy.web.model.Contact;
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.repository.ContactProxy;
@@ -9,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 @Service
 public class ContactService {
@@ -19,33 +20,59 @@ public class ContactService {
     @Autowired
     UserService userService;
 
-    public String addContact(User newUser, Model model) {
+    public String addContact(User newUserReceiver, Model model) {
         String status = "";
 
         //User Authenticate
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userAuthenticate = auth.getName();
-        model.addAttribute("userEmail", userAuthenticate);
-        String emailNewUser = newUser.getEmail();
-        User userContact = userService.getUserByEmail(emailNewUser);
+        String userEmailAuthenticate = auth.getName();
+        model.addAttribute("userEmail", userEmailAuthenticate);
+        User newBuddy = userService.getUserByEmail(newUserReceiver.getEmail());
 
         //récupération id if usercontact is présent
-        if (userContact == null) {
+        if (newBuddy == null) {
             status = "Contact unknow";
         } else {
-            User userAuth = userService.getUserByEmail(userAuthenticate);
-            int idUserAuthenticate = userAuth.getId(); // initialize id user authenticate
-            int idNewContact = userContact.getId(); // initialize id contact write
-            Contact contact = new Contact(idNewContact,idUserAuthenticate); // initialize a new contact
 
+            User userAuthenticated = userService.getUserByEmail(userEmailAuthenticate);
+            int idUserAuthenticate = userAuthenticated.getId(); // initialize id user authenticate
+            int idNewContactReceiver = newBuddy.getId(); // initialize id contact write
+            Contact contact = new Contact(idUserAuthenticate, idNewContactReceiver, newBuddy.getFirstname()); // initialize a new contact
+
+            contactProxy.getContactAll();
+            // Control contact is présent
+            if (verifyContactIsPresent(idUserAuthenticate)) {
+                status = "Contact is allready present";
+            } else {
                 contactProxy.saveContact(contact);
                 status = "Contact saved";
+            }
         }
         return status;
     }
 
-
     public String listOfContact(int userAuthId) {
         return contactProxy.listContact(userAuthId);
+    }
+
+    public Contact findById(int userId) {
+        return contactProxy.getContactById(userId);
+    }
+
+    public boolean verifyContactIsPresent(int userId) {
+        boolean contactIsPresent = false;
+
+Contact list = contactProxy.getContactAll();
+        System.out.println(list);
+
+
+//        for (Contact contactResult : contactIterable) {
+//            if (contactResult.equals(contact)) {
+//                System.out.println(contactResult);
+//                contactIsPresent = true;
+//            }
+//        }
+
+        return contactIsPresent;
     }
 }

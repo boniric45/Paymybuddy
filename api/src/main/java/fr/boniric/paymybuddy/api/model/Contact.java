@@ -2,10 +2,7 @@ package fr.boniric.paymybuddy.api.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -17,17 +14,18 @@ import javax.persistence.Table;
 public class Contact {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
-     Integer contactId;
+    Integer contactId;
 
     @Column(name = "users_id")
-     Integer usersId;
+    Integer usersId;
 
-    public Contact(int contactId, int usersId) {
-        this.contactId = contactId;
-        this.usersId = usersId;
-    }
+    @Column(name = "buddy_id")
+    Integer buddyId;
 
+    @Column(name = "buddy_name")
+    String buddyName;
 
 
 }

@@ -1,9 +1,9 @@
 package fr.boniric.paymybuddy.web.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 @Data
 @Getter
@@ -12,10 +12,13 @@ public class Contact {
 
     private Integer contactId;
     private Integer usersId;
+    private Integer buddyId;
+    private String buddyName;
 
-    public Contact(Integer contactId, Integer usersId) {
-        this.contactId = contactId;
+    public Contact(Integer usersId, Integer buddyId, String buddyName) {
         this.usersId = usersId;
+        this.buddyId = buddyId;
+        this.buddyName = buddyName;
     }
 
     public Contact() {

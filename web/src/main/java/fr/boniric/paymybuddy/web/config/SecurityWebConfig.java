@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
@@ -50,8 +50,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/inscription").permitAll()
                 .antMatchers(HttpMethod.GET,"/contact").authenticated()
-                .antMatchers(HttpMethod.GET,"/contact/*").authenticated()
+                .antMatchers(HttpMethod.GET,"/contact/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/contact").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/contact/all").permitAll()
                 .antMatchers(HttpMethod.GET, "/transfer/*").authenticated()
                 .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
                 .antMatchers(HttpMethod.GET, "/username").authenticated() //Récupère l'identifiant

@@ -19,19 +19,22 @@ public class ContactService {
     ContactRepository contactRepository;
 
     @Autowired
-     UserService userService;
+    UserService userService;
 
     /**
      * @param authUserId
      * @return List Contact Connexion of Authenticate User
      */
     public List<String> getListContact(int authUserId) {
+
         List<String> listContact = new ArrayList<>();
-        Iterable<Contact> userAllContact = getAllContact();
+
+        System.out.println(contactRepository.findAll());
+        Iterable<Contact> userAllContact = contactRepository.findAll();
 
         for (Contact contact : userAllContact) {
             if (contact.getUsersId() == authUserId) {
-                Iterable<User> user = userService.getUserById(contact.getContactId());
+                Iterable<User> user = userService.getUserById(contact.getBuddyId());
                 for (User result : user) {
                     listContact.add(result.getFirstname() + " " + result.getLastname() + ": " + result.getEmail());
                 }

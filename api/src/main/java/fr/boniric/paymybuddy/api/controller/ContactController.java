@@ -8,17 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
+import java.util.Optional;
 
 @RestController
 public class ContactController {
 
     @Autowired
-     ContactService contactService;
+    ContactService contactService;
 
     @Autowired
-     UserService userService;
+    UserService userService;
 
     /**
      * Create - Add a new contact
@@ -35,10 +34,10 @@ public class ContactController {
      *
      * @return List
      */
-    @GetMapping("/contact/{userAuthId}")
-    public List<String> readContact(@PathVariable("userAuthId") Integer userIdWrite, Model model) {
-        model.addAttribute("listContact", contactService.getListContact(userIdWrite));
-        return contactService.getListContact(userIdWrite);
+    @GetMapping("/listcontact/{userAuthId}")
+    public List<String> readContact(@PathVariable("userAuthId") int userId, Model model) {
+        model.addAttribute("listContact", contactService.getListContact(userId));
+        return contactService.getListContact(userId);
     }
 
     /**
@@ -53,18 +52,16 @@ public class ContactController {
 
     /**
      * delete Contact by Id
-     *
      */
     @DeleteMapping("/deleteContact/{id}")
-    public void deleteContactById(@PathVariable("id") int id){
+    public void deleteContactById(@PathVariable("id") int id) {
         Contact contact = contactService.getContactByUserId(id).get();
-            contactService.delete(contact);
+        contactService.delete(contact);
     }
 
     //TODO revoir contrainte base contact, control sur contact déjà présent, revoir page de payment date, merge le P8
     // Todo quand on paye avec account ne doit pas vider la table des transactions ou reactualiser la page
     //TODO voir également la page read me photo
-
 
 
 }
