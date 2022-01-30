@@ -1,5 +1,7 @@
-package fr.boniric.paymybuddy.api.controller;
+package fr.boniric.paymybuddy.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.boniric.paymybuddy.api.model.Contact;
 import fr.boniric.paymybuddy.api.model.Transaction;
 import fr.boniric.paymybuddy.api.model.User;
@@ -14,14 +16,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
+import java.util.TimeZone;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TestTransactionController {
+public class TestIntegrationTransaction {
 
     @Autowired
     private TransactionService transactionService;
@@ -35,9 +42,23 @@ public class TestTransactionController {
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
+    public void whenSerializingDateWithJackson_thenSerializedToTimestamp()
+            throws JsonProcessingException, ParseException {
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        Date date = df.parse("01-01-1970 01:00");
+
+        Event event = new Event(1, 1, date);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValueAsString(event);
+    }
 
     @Test
-    public void createTransactionTest() throws Exception {
+    public void testIntegrationTransaction() throws Exception {
 
         // Given
         LocalDate date = LocalDate.now(ZoneId.of("Europe/Paris"));
@@ -69,12 +90,12 @@ public class TestTransactionController {
         Iterable<Transaction> transactionIterable = transactionService.getAllTransaction();
         Transaction transactionResult = new Transaction();
         for (Transaction transactionObj : transactionIterable) {
-            if (transactionObj.getUserId() == user1Id && transactionObj.getBuddyId() == user2Id) {
+            if (transactionObj.getUserId()==user1Id && transactionObj.getBuddyId()==user2Id){
                 transactionResult = transactionObj;
 
             }
         }
-        Assertions.assertEquals(transactionResult.getUserId(), user1Id);
+        Assertions.assertEquals(transactionResult.getUserId(),user1Id);
         Assertions.assertEquals(transactionResult.getBuddyId(), user2Id);
         Assertions.assertEquals(transactionResult.getDescription(), "payment habbits");
         Assertions.assertEquals(transactionResult.getListEmail(), "test@test.fr");
@@ -93,6 +114,4 @@ public class TestTransactionController {
         }
 
     }
-
-
 }

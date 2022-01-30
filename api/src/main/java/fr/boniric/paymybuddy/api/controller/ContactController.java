@@ -2,22 +2,17 @@ package fr.boniric.paymybuddy.api.controller;
 
 import fr.boniric.paymybuddy.api.model.Contact;
 import fr.boniric.paymybuddy.api.service.ContactService;
-import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ContactController {
 
     @Autowired
     ContactService contactService;
-
-    @Autowired
-    UserService userService;
 
     /**
      * Create - Add a new contact
@@ -41,6 +36,16 @@ public class ContactController {
     }
 
     /**
+     * Get Contact by id
+     *
+     * @return Contact
+     */
+    @GetMapping("/contact/{userId}/{buddyId}")
+    public Contact readContactById(@PathVariable("userId") int userId, @PathVariable("buddyId") int buddyId) {
+        return contactService.getControlContact(userId, buddyId);
+    }
+
+    /**
      * Get All Contact
      *
      * @return Contact
@@ -59,9 +64,9 @@ public class ContactController {
         contactService.delete(contact);
     }
 
-    //TODO revoir contrainte base contact, control sur contact déjà présent, revoir page de payment date, merge le P8
-    // Todo quand on paye avec account ne doit pas vider la table des transactions ou reactualiser la page
-    //TODO voir également la page read me photo
+//    //TODO revoir contrainte base contact, control sur contact déjà présent, revoir page de payment date, merge le P8
+//    // Todo quand on paye avec account ne doit pas vider la table des transactions ou reactualiser la page
+//    //TODO voir également la page read me photo
 
 
 }

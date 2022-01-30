@@ -7,6 +7,7 @@ import fr.boniric.paymybuddy.web.model.Contact;
 import fr.boniric.paymybuddy.web.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -51,32 +52,48 @@ public class ContactProxy {
         return response.getBody();
     }
 
-    public Contact getContactAll(){
+    public List<Contact> getContactAll(){
         String baseApiUrl = props.getApiURL();
         String getUserURL = baseApiUrl + "/contact/all";
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Contact> response = restTemplate.exchange(
+        ResponseEntity<List<Contact>>  response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.GET,
                 null,
-                Contact.class);
+                new ParameterizedTypeReference<List<Contact>>(){});
 
         log.debug("Get Contact All call " + response.getStatusCode());
         return response.getBody();
 
     }
 
-    public Contact getContactById(int userId) {
+    public Contact getControlContactById(int userId,int buddyId) {
         String baseApiUrl = props.getApiURL();
-        String getUserURL = baseApiUrl + "/contact/"+userId;
+        String getUserURL = baseApiUrl + "/contact/"+userId+"/"+buddyId;
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Contact> response = restTemplate.exchange(
+        ResponseEntity<Contact>  response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.GET,
                 null,
-                Contact.class);
+                new ParameterizedTypeReference<Contact>(){});
 
         log.debug("Get Contact By Id call " + response.getStatusCode());
         return response.getBody();
     }
+
+    public Contact getContactById(int userId) {
+        String baseApiUrl = props.getApiURL();
+        String getUserURL = baseApiUrl + "/contact/"+userId;
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Contact>  response = restTemplate.exchange(
+                getUserURL,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Contact>(){});
+
+        log.debug("Get Contact By Id call " + response.getStatusCode());
+        return response.getBody();
+    }
+
 }

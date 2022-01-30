@@ -37,12 +37,12 @@ public class TransactionService {
         //Search transaction for user ID
         for (Transaction tr : transactions) {
             int transactionAmount = (int) tr.getTransactionAmount(); // parse cast int
-            userIterable = userService.getUserById(tr.getContactId());
+            userIterable = userService.getUserById(tr.getBuddyId());
             transactionRepository.findAllById(Collections.singleton(idUser));
 
             if (tr.getUserId() == idUser) {
-                for (User user : userIterable){
-                   transactionList.add(user.getFirstname()+"-"+tr.getDescription()+"-"+ transactionAmount+" €");
+                for (User user : userIterable) {
+                    transactionList.add(user.getFirstname() + "-" + tr.getDescription() + "-" + transactionAmount + " €");
                 }
             }
         }
@@ -50,7 +50,7 @@ public class TransactionService {
         return transactionList;
     }
 
-    public void deleteTransactionByUserId(int userId){
+    public void deleteTransactionByUserId(int userId) {
         transactionRepository.deleteById(userId);
     }
 }

@@ -1,8 +1,11 @@
 package fr.boniric.paymybuddy.web.service;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
+import fr.boniric.paymybuddy.api.repository.ContactRepository;
+import fr.boniric.paymybuddy.web.model.Contact;
 import fr.boniric.paymybuddy.web.model.TransactionDto;
 import fr.boniric.paymybuddy.web.model.User;
+import fr.boniric.paymybuddy.web.repository.ContactProxy;
 import fr.boniric.paymybuddy.web.repository.TransactionProxy;
 import lombok.Data;
 import org.json.CDL;
@@ -13,6 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Data
@@ -32,6 +41,9 @@ public class TransactionService {
 
     @Autowired
     private ContactService contactService;
+
+    @Autowired
+    private ContactProxy contactProxy;
 
     public void pushNewLoginToTransfer(Model model) {
 
@@ -57,13 +69,11 @@ public class TransactionService {
             model.addAttribute("list", listContact); // push list contact
         }
 
-
         // Object result list transaction by user authenticate
         List<String> listTransaction = new ArrayList<>();
         List<TransactionDto> transactionDtoList = LIST_TRANSACTIONDTO;
         String[] rows;
         JSONArray jaTransaction = new JSONArray(strListTransaction);
-
 
         for (Object obj : jaTransaction) {
             CDL.rowToString(jaTransaction);
@@ -107,7 +117,7 @@ public class TransactionService {
         // Payment Type Account
         if (typePayment == 1) {
 
-            //if the pay is identical to the selected user
+            // if the pay is identical to the selected user
             if (Objects.equals(userPayer.getId(), userSelected.getId())) {
                 selector = "/transfer";
                 model.addAttribute("statut", "Please use rib payment");
@@ -173,7 +183,7 @@ public class TransactionService {
         transaction.setTransactionCommissionAmount(amountCommissionFinal);// Push amount commission in Object Transaction
         transaction.setTransactionTotalAmount(amountTotalWithCommission);
         transaction.setUserId(userPayer.getId());
-        transaction.setContactId(userSelected.getId());
+        transaction.setBuddyId(userSelected.getId());
 
         // Push Forms recapTransaction
         model.addAttribute("status", "Please confirm your payment");
@@ -207,7 +217,8 @@ public class TransactionService {
         if (!(balancePayer <= amountTotalWithCommission)) {
             // Update Payer
             double balancePayerResult = balancePayer - amountTotalWithCommission;
-            userService.updateUser(userPayer.getId(), Math.round(balancePayerResult * 100.0) / 100.0);
+            balancePayerResult = Math.round(balancePayerResult * 100.0) / 100.0;
+            userService.updateUser(userPayer.getId(),balancePayerResult);
             saveTransaction(transaction);
         }
 
@@ -231,6 +242,8 @@ public class TransactionService {
     }
 
     public void saveTransaction(Transaction transaction) {
+        Contact contact = contactProxy.getControlContactById(transaction.getUserId(), transaction.getBuddyId());
+        transaction.setContactId(contact.getContactId());
         transactionProxy.saveTransaction(transaction);
     }
 

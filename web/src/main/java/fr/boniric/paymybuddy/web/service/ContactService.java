@@ -39,13 +39,15 @@ public class ContactService {
             int idNewContactReceiver = newBuddy.getId(); // initialize id contact write
             Contact contact = new Contact(idUserAuthenticate, idNewContactReceiver, newBuddy.getFirstname()); // initialize a new contact
 
-            contactProxy.getContactAll();
             // Control contact is présent
-            if (verifyContactIsPresent(idUserAuthenticate)) {
-                status = "Contact is allready present";
-            } else {
+            Contact resultContact = contactProxy.getControlContactById(idUserAuthenticate,idNewContactReceiver);
+            if (resultContact.getContactId() == null){
+                status = "";
                 contactProxy.saveContact(contact);
                 status = "Contact saved";
+            } else {
+                status = "";
+                status = "Contact is allready present";
             }
         }
         return status;
@@ -59,20 +61,4 @@ public class ContactService {
         return contactProxy.getContactById(userId);
     }
 
-    public boolean verifyContactIsPresent(int userId) {
-        boolean contactIsPresent = false;
-
-Contact list = contactProxy.getContactAll();
-        System.out.println(list);
-
-
-//        for (Contact contactResult : contactIterable) {
-//            if (contactResult.equals(contact)) {
-//                System.out.println(contactResult);
-//                contactIsPresent = true;
-//            }
-//        }
-
-        return contactIsPresent;
-    }
 }

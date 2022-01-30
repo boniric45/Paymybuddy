@@ -2,7 +2,6 @@ package fr.boniric.paymybuddy.api.controller;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
 import fr.boniric.paymybuddy.api.service.TransactionService;
-import fr.boniric.paymybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +12,6 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
-
-    @Autowired
-    private UserService userService;
 
     /**
      * Create - Add a new Transaction

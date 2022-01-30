@@ -60,7 +60,6 @@ public class UserProxy {
         return response.getBody();
     }
 
-
     public void updateUser(Integer userId, double amountTransaction) {
 
         String baseApiUrl = props.getApiURL();

@@ -3,7 +3,6 @@ package fr.boniric.paymybuddy.web.model;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Data
 @Getter

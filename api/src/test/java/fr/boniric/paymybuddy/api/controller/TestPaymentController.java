@@ -1,7 +1,5 @@
 package fr.boniric.paymybuddy.api.controller;
 
-import fr.boniric.paymybuddy.api.model.PaymentType;
-import fr.boniric.paymybuddy.api.service.PaymentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

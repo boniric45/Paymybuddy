@@ -57,7 +57,7 @@ public class UserController {
     }
 
     /**
-     *      Update balance User with amountTransaction
+     * Update balance User with amountTransaction
      *
      * @param id                The id of the user
      * @param amountTransaction new balance
@@ -67,7 +67,7 @@ public class UserController {
     public void updateUser(@PathVariable("id") Integer id, @PathVariable("amountTransaction") double amountTransaction) {
         Iterable<User> userId = userService.getUserById(id);
         if (userId != null) {
-        for (User userIT : userId) {
+            for (User userIT : userId) {
                 userIT.setBalance(amountTransaction);
                 System.out.println(userIT);
                 userService.saveUser(userIT);
@@ -76,15 +76,15 @@ public class UserController {
     }
 
     /**
-     *     Delete User By Id
+     * Delete User By Id
      *
-     * @param id                The id of the user
+     * @param id The id of the user
      */
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable("id") long id) {
-       userService.deleteUserById(id);
-        }
+        userService.deleteUserById(id);
     }
+}
 
 
 

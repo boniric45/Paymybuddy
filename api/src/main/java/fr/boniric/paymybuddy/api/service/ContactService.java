@@ -26,12 +26,9 @@ public class ContactService {
      * @return List Contact Connexion of Authenticate User
      */
     public List<String> getListContact(int authUserId) {
-
         List<String> listContact = new ArrayList<>();
-
         System.out.println(contactRepository.findAll());
         Iterable<Contact> userAllContact = contactRepository.findAll();
-
         for (Contact contact : userAllContact) {
             if (contact.getUsersId() == authUserId) {
                 Iterable<User> user = userService.getUserById(contact.getBuddyId());
@@ -41,6 +38,17 @@ public class ContactService {
             }
         }
         return listContact;
+    }
+
+    public Contact getControlContact(int userId, int buddyId) {
+        Contact resultContact = new Contact();
+        Iterable<Contact> contactIterable = contactRepository.findAll();
+        for (Contact contact : contactIterable){
+            if (contact.getUsersId()==userId && contact.getBuddyId() == buddyId){
+                resultContact = contact;
+            }
+        }
+        return resultContact;
     }
 
     public Optional<Contact> getContactByUserId(int userId) {
