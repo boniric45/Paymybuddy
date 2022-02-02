@@ -12,12 +12,11 @@ public class Contact {
     private Integer contactId;
     private Integer usersId;
     private Integer buddyId;
-    private String buddyName;
 
-    public Contact(Integer usersId, Integer buddyId, String buddyName) {
+
+    public Contact(Integer usersId, Integer buddyId) {
         this.usersId = usersId;
         this.buddyId = buddyId;
-        this.buddyName = buddyName;
     }
 
     public Contact() {

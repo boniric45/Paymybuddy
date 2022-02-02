@@ -63,7 +63,7 @@ public class TestContactController {
 
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
@@ -95,7 +95,7 @@ public class TestContactController {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
         contactService.saveContact(contact);
 
         Contact contactResult = contactService.getControlContact(user1Id, user2Id);
@@ -126,7 +126,7 @@ public class TestContactController {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
         contactService.saveContact(contact);
 
         Iterable<Contact> contactResult = contactService.getAllContact();
@@ -163,7 +163,7 @@ public class TestContactController {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
 
-        Contact contact = new Contact(null, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
         contactService.saveContact(contact);
 
         Iterable<Contact> contactResult = contactService.getAllContact();

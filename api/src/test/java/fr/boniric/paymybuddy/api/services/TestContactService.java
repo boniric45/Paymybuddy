@@ -38,7 +38,7 @@ public class TestContactService {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactService.saveContact(contact);
@@ -67,7 +67,7 @@ public class TestContactService {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactService.saveContact(contact);
@@ -98,7 +98,7 @@ public class TestContactService {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactService.saveContact(contact);
@@ -127,7 +127,7 @@ public class TestContactService {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
         List<String> contactList = new ArrayList<>();
 
         // When
@@ -158,7 +158,7 @@ public class TestContactService {
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
 
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
         List<String> contactList = new ArrayList<>();
 
         // When

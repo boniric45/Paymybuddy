@@ -48,7 +48,7 @@ public class TestContactRepository {
 
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
 
         // When
@@ -73,7 +73,7 @@ public class TestContactRepository {
 
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactRepository.save(contact);
@@ -97,7 +97,7 @@ public class TestContactRepository {
 
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactRepository.save(contact);
@@ -122,7 +122,7 @@ public class TestContactRepository {
 
         int user1Id = Math.toIntExact(userService.getUserByEmail("test@test.fr").get().getId());
         int user2Id = Math.toIntExact(userService.getUserByEmail("test2@test.fr").get().getId());
-        Contact contact = new Contact(1, user1Id, user2Id, "jon");
+        Contact contact = new Contact(1, user1Id, user2Id);
 
         // When
         contactRepository.save(contact);

@@ -179,11 +179,12 @@ public class TransactionService {
         double balanceUserPayer = userPayer.getBalance(); // get balance user authenticate
         double balanceUserSelected = userSelected.getBalance(); // get balance user selected
 
+        Contact contact = contactService.findById(userPayer.getId());
+
         transaction.setTransactionAmount(amountTransactionFinal);
         transaction.setTransactionCommissionAmount(amountCommissionFinal);// Push amount commission in Object Transaction
         transaction.setTransactionTotalAmount(amountTotalWithCommission);
-        transaction.setUserId(userPayer.getId());
-        transaction.setBuddyId(userSelected.getId());
+        transaction.setContactId(contact.getContactId());
 
         // Push Forms recapTransaction
         model.addAttribute("status", "Please confirm your payment");
@@ -242,7 +243,8 @@ public class TransactionService {
     }
 
     public void saveTransaction(Transaction transaction) {
-        Contact contact = contactProxy.getControlContactById(transaction.getUserId(), transaction.getBuddyId());
+        User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE);
+        Contact contact = contactService.findById(userPayer.getId());
         transaction.setContactId(contact.getContactId());
         transactionProxy.saveTransaction(transaction);
     }

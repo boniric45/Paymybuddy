@@ -24,8 +24,4 @@ public class Contact {
     @Column(name = "buddy_id")
     Integer buddyId;
 
-    @Column(name = "buddy_name")
-    String buddyName;
-
-
 }

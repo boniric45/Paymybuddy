@@ -1,17 +1,17 @@
 package fr.boniric.paymybuddy.api.service;
 
+import fr.boniric.paymybuddy.api.model.Contact;
 import fr.boniric.paymybuddy.api.model.Transaction;
 import fr.boniric.paymybuddy.api.model.User;
 import fr.boniric.paymybuddy.api.repository.TransactionRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-@Data
+
 @Service
 public class TransactionService {
 
@@ -20,6 +20,9 @@ public class TransactionService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ContactService contactService;
 
     public void saveTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
@@ -31,24 +34,22 @@ public class TransactionService {
 
     public List<String> getAllTransactionById(int idUser) {
         List<String> transactionList = new ArrayList<>();
+        Optional<Contact> contact = contactService.getContactByUserId(idUser);
         Iterable<Transaction> transactions = getAllTransaction();
-        Iterable<User> userIterable;
+        Iterable<User> user = userService.getUserById(idUser);
 
-        //Search transaction for user ID
-        for (Transaction tr : transactions) {
-            int transactionAmount = (int) tr.getTransactionAmount(); // parse cast int
-            userIterable = userService.getUserById(tr.getBuddyId());
-            transactionRepository.findAllById(Collections.singleton(idUser));
-
-            if (tr.getUserId() == idUser) {
-                for (User user : userIterable) {
-                    transactionList.add(user.getFirstname() + "-" + tr.getDescription() + "-" + transactionAmount + " €");
+        if (contact.isPresent()) {
+            for (Transaction transactionIterable : transactions) {
+                int transactionAmount = (int) transactionIterable.getTransactionAmount(); // parse cast int
+                for (User userIterable : user) {
+                    transactionList.add(userIterable.getFirstname() + "-" + transactionIterable.getDescription() + "-" + transactionAmount + " €");
                 }
             }
         }
-
         return transactionList;
+
     }
+
 
     public void deleteTransactionByUserId(int userId) {
         transactionRepository.deleteById(userId);

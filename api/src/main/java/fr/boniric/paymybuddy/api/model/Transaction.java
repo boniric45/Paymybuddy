@@ -27,17 +27,12 @@ public class Transaction {
     @Column(name = "payment_type_id")
     private int paymentTypeId;
 
-    @Column(name = "users_id")
-    private int userId;
-
     @Column(name = "contact_id")
     private int contactId;
 
-    @Column(name = "buddy_id")
-    private int buddyId;
-
     @Column(name = "transaction_date")
     private LocalDate date = LocalDate.now(ZoneId.of("Europe/Paris"));
+
 
     @Column(name = "transaction_amount")
     private double transactionAmount;
@@ -54,12 +49,10 @@ public class Transaction {
     @Column(name = "transaction_description")
     private String description;
 
-    public Transaction(Integer transactionId, int paymentTypeId, int userId, int contactId, int buddyId, LocalDate date, double transactionAmount, double transactionCommissionAmount, double transactionTotalAmount, String listEmail, String description) {
+    public Transaction(Integer transactionId, int paymentTypeId, int contactId, LocalDate date, double transactionAmount, double transactionCommissionAmount, double transactionTotalAmount, String listEmail, String description) {
         this.transactionId = transactionId;
         this.paymentTypeId = paymentTypeId;
-        this.userId = userId;
         this.contactId = contactId;
-        this.buddyId = buddyId;
         this.date = date;
         this.transactionAmount = transactionAmount;
         this.transactionCommissionAmount = transactionCommissionAmount;

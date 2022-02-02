@@ -37,7 +37,7 @@ public class ContactService {
             User userAuthenticated = userService.getUserByEmail(userEmailAuthenticate);
             int idUserAuthenticate = userAuthenticated.getId(); // initialize id user authenticate
             int idNewContactReceiver = newBuddy.getId(); // initialize id contact write
-            Contact contact = new Contact(idUserAuthenticate, idNewContactReceiver, newBuddy.getFirstname()); // initialize a new contact
+            Contact contact = new Contact(idUserAuthenticate, idNewContactReceiver); // initialize a new contact
 
             // Control contact is présent
             Contact resultContact = contactProxy.getControlContactById(idUserAuthenticate,idNewContactReceiver);
