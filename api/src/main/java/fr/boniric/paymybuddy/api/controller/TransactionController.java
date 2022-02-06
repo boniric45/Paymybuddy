@@ -26,7 +26,7 @@ public class TransactionController {
     }
 
     /**
-     * Read - Get one transaction
+     * Get all transaction by User Id
      *
      * @param idUser The id of the transaction
      * @return An transaction object full filled
@@ -35,4 +35,5 @@ public class TransactionController {
     public List<String> getAllTransactionById(@PathVariable("id") int idUser) {
         return transactionService.getAllTransactionById(idUser);
     }
+
 }

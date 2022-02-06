@@ -19,7 +19,7 @@ public class ContactController {
     ContactService contactService;
 
     @GetMapping("/addconnection")
-    public String addconnection(Model model) {
+    public String addConnection(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userAuthenticate = auth.getName();
         model.addAttribute("userEmail", userAuthenticate); // push Email user authenticate in forms addconnection

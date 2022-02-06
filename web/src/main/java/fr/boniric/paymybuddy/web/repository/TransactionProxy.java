@@ -10,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
 @Component
 public class TransactionProxy {
@@ -22,25 +19,25 @@ public class TransactionProxy {
 
     public Transaction saveTransaction(Transaction transaction) {
 
-            String baseApiUrl = props.getApiURL();
-            String geTransactionURL =  baseApiUrl+"/transaction";
+        String baseApiUrl = props.getApiURL();
+        String geTransactionURL = baseApiUrl + "/transaction";
 
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<Transaction> request = new HttpEntity<Transaction>(transaction);
-            ResponseEntity<Transaction> response = restTemplate.exchange(
-                    geTransactionURL,
-                    HttpMethod.POST,
-                    request,
-                    Transaction.class);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Transaction> request = new HttpEntity<Transaction>(transaction);
+        ResponseEntity<Transaction> response = restTemplate.exchange(
+                geTransactionURL,
+                HttpMethod.POST,
+                request,
+                Transaction.class);
 
-            log.debug("Create Transaction call " + response.getStatusCode().toString());
+        log.debug("Create Transaction call " + response.getStatusCode().toString());
         return response.getBody();
-        }
+    }
 
     public String getTransaction(int id) {
 
         String baseApiUrl = props.getApiURL();
-        String geTransactionURL =  baseApiUrl+"/transaction/"+id;
+        String geTransactionURL = baseApiUrl + "/transaction/" + id;
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(String.valueOf(id));
         ResponseEntity<String> response = restTemplate.exchange(
@@ -53,6 +50,6 @@ public class TransactionProxy {
         return response.getBody();
     }
 
-    }
+}
 
 

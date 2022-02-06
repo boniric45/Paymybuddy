@@ -1,10 +1,7 @@
 package fr.boniric.paymybuddy.web.repository;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.boniric.paymybuddy.web.custom.CustomProperties;
 import fr.boniric.paymybuddy.web.model.Contact;
-import fr.boniric.paymybuddy.web.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -36,7 +31,7 @@ public class ContactProxy {
                 request,
                 Contact.class);
         log.debug("Create Contact call " + response.getStatusCode().toString());
-         response.getBody();
+        response.getBody();
     }
 
     public String listContact(int userAuthId) {
@@ -52,30 +47,32 @@ public class ContactProxy {
         return response.getBody();
     }
 
-    public List<Contact> getContactAll(){
+    public List<Contact> getContactAll() {
         String baseApiUrl = props.getApiURL();
         String getUserURL = baseApiUrl + "/contact/all";
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<Contact>>  response = restTemplate.exchange(
+        ResponseEntity<List<Contact>> response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Contact>>(){});
+                new ParameterizedTypeReference<List<Contact>>() {
+                });
 
         log.debug("Get Contact All call " + response.getStatusCode());
         return response.getBody();
 
     }
 
-    public Contact getControlContactById(int userId,int buddyId) {
+    public Contact getControlContactById(int userId, int buddyId) {
         String baseApiUrl = props.getApiURL();
-        String getUserURL = baseApiUrl + "/contact/"+userId+"/"+buddyId;
+        String getUserURL = baseApiUrl + "/contact/" + userId + "/" + buddyId;
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Contact>  response = restTemplate.exchange(
+        ResponseEntity<Contact> response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<Contact>(){});
+                new ParameterizedTypeReference<Contact>() {
+                });
 
         log.debug("Get Contact By Id call " + response.getStatusCode());
         return response.getBody();
@@ -83,14 +80,15 @@ public class ContactProxy {
 
     public Contact getContactById(int userId) {
         String baseApiUrl = props.getApiURL();
-        String getUserURL = baseApiUrl + "/contact/"+userId;
+        String getUserURL = baseApiUrl + "/contact/" + userId;
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<Contact>  response = restTemplate.exchange(
+        ResponseEntity<Contact> response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<Contact>(){});
+                new ParameterizedTypeReference<Contact>() {
+                });
 
         log.debug("Get Contact By Id call " + response.getStatusCode());
         return response.getBody();

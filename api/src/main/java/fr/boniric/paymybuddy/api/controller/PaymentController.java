@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     @Autowired
-    PaymentService paymentService;
+    private PaymentService paymentService;
 
     /**
-     * @author Eric Boniface
-     *
      * @return Payment Type
+     * @author Eric Boniface
      */
     @GetMapping("/payment_type")
     public Iterable<PaymentType> getPayment() {

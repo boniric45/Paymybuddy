@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.sql.DataSource;
 
@@ -49,13 +48,14 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/inscription").permitAll()
-                .antMatchers(HttpMethod.GET,"/contact").authenticated()
-                .antMatchers(HttpMethod.GET,"/contact/**").authenticated()
-                .antMatchers(HttpMethod.POST,"/contact").authenticated()
+                .antMatchers(HttpMethod.POST, "/user").permitAll()
+                .antMatchers(HttpMethod.GET, "/contact").authenticated()
+                .antMatchers(HttpMethod.GET, "/contact/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/contact").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/contact/all").permitAll()
                 .antMatchers(HttpMethod.GET, "/transfer/*").authenticated()
                 .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
-                .antMatchers(HttpMethod.GET, "/username").authenticated() //Récupère l'identifiant
+                .antMatchers(HttpMethod.GET, "/username").authenticated()
                 .antMatchers(HttpMethod.GET, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.POST, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.GET, "/pay").authenticated()
@@ -64,12 +64,11 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/transaction/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/recapTransaction").authenticated()
                 .antMatchers(HttpMethod.POST, "/recapTransaction").authenticated()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .and()
                 .formLogin()//connexion par formulaire autorisé
                 .usernameParameter("username")//champ formulaire
                 .passwordParameter("password")
-                .loginPage("/login").permitAll() // formulaire de login personnalisé
+                .loginPage("/login").permitAll() // forms custom login
                 .failureUrl("/bad")// if ko bad
                 .defaultSuccessUrl("/transfer")// if ok transfer
                 .and()
@@ -91,9 +90,9 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("*");
-    }
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**").allowedMethods("*");
+//    }
 
 
 }

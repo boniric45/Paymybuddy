@@ -336,7 +336,7 @@ thead tr{
             <div class="btnRib"><input type="radio" th:field="*{paymentTypeId}" value="2"/> Rib</div>
         </div>
 
-        <select required class="form-select form-select-lg mb-3" th:field="*{listEmail}">
+        <select required class="form-select form-select-lg mb-3" th:field="*{listContact}">
             <option selected value="">Select A Connection:</option>
             <option th:each="p : ${list}" th:value="${p}" th:text="${p}"></option>
         </select>

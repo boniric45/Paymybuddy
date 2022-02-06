@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 public class PaymentService {
 
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
 
+    /**
+     * Get All Payment Type
+     * @return Iterable<PaymentType>
+     */
     public Iterable<PaymentType> getPaymentTypeAll() {
         return paymentRepository.findAll();
     }

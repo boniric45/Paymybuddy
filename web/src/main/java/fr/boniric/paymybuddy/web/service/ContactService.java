@@ -9,8 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.List;
-
 @Service
 public class ContactService {
 
@@ -40,8 +38,8 @@ public class ContactService {
             Contact contact = new Contact(idUserAuthenticate, idNewContactReceiver); // initialize a new contact
 
             // Control contact is présent
-            Contact resultContact = contactProxy.getControlContactById(idUserAuthenticate,idNewContactReceiver);
-            if (resultContact.getContactId() == null){
+            Contact resultContact = contactProxy.getControlContactById(idUserAuthenticate, idNewContactReceiver);
+            if (resultContact.getContactId() == null) {
                 status = "";
                 contactProxy.saveContact(contact);
                 status = "Contact saved";

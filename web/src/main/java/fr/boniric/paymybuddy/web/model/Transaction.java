@@ -11,14 +11,13 @@ public class Transaction {
 
     private Integer transactionId;
     private int paymentTypeId;
-    private int userId;
-    private int buddyId;
-    private int contactId;
+    private Integer userId;
+    private Integer userReceiverId;
     private Date date = new Date();
     private double transactionAmount;
     private double transactionCommissionAmount;
     private double transactionTotalAmount;
-    private String listEmail;
+    private String listContact;
     private String description;
 
 }

@@ -37,7 +37,6 @@ public class UserController {
         return "/login";
     }
 
-    //Create
     @GetMapping("/inscription")
     public String inscriptionPage(Model model) {
         User user = new User();
@@ -78,7 +77,7 @@ public class UserController {
     @PutMapping("/updateBalance/{id}/{amountTransaction}")
     public void updateUser(@PathVariable("id") int updateUserId, @PathVariable("amountTransaction") double amountTransaction) {
 
-        if (updateUserId != 0 || amountTransaction != 0){
+        if (updateUserId != 0 || amountTransaction != 0) {
             Iterable<User> userId = userService.getUserById(updateUserId);
             for (User userIT : userId) {
                 if (userIT != null) {

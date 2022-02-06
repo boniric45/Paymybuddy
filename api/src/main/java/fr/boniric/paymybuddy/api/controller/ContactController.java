@@ -40,9 +40,9 @@ public class ContactController {
      *
      * @return Contact
      */
-    @GetMapping("/contact/{userId}/{buddyId}")
-    public Contact readContactById(@PathVariable("userId") int userId, @PathVariable("buddyId") int buddyId) {
-        return contactService.getControlContact(userId, buddyId);
+    @GetMapping("/contact/{userId}/{userReceiverId}")
+    public Contact readContactById(@PathVariable("userId") int userId, @PathVariable("userReceiverId") int userReceiverId) {
+        return contactService.getControlContact(userId, userReceiverId);
     }
 
     /**
@@ -63,10 +63,6 @@ public class ContactController {
         Contact contact = contactService.getContactByUserId(id).get();
         contactService.delete(contact);
     }
-
-//    //TODO revoir contrainte base contact, control sur contact déjà présent, revoir page de payment date, merge le P8
-//    // Todo quand on paye avec account ne doit pas vider la table des transactions ou reactualiser la page
-//    //TODO voir également la page read me photo
 
 
 }

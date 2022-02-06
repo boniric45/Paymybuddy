@@ -32,7 +32,7 @@ public class UserProxy {
 
     public User getUserById(int userId) {
         String baseApiUrl = props.getApiURL();
-        String getUserURL = baseApiUrl + "/users/"+userId;
+        String getUserURL = baseApiUrl + "/users/" + userId;
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<User> response = restTemplate.exchange(
                 getUserURL,
@@ -63,7 +63,7 @@ public class UserProxy {
     public void updateUser(Integer userId, double amountTransaction) {
 
         String baseApiUrl = props.getApiURL();
-        String getUserURL = baseApiUrl + "/updateBalance/"+userId+"/"+amountTransaction;
+        String getUserURL = baseApiUrl + "/updateBalance/" + userId + "/" + amountTransaction;
 
         RestTemplate restTemplate = new RestTemplate();
 //        HttpEntity<User> request = new HttpEntity<User>(user);

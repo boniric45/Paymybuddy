@@ -51,6 +51,12 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    /**
+     * Read - Get one user by Id
+     *
+     * @param userId The id of the user
+     * @return An User object full filled
+     */
     @GetMapping("/users/{id}")
     public Iterable<User> getUserFindById(@PathVariable("id") long userId) {
         return userService.getUserById(userId);

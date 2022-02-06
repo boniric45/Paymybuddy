@@ -1,8 +1,6 @@
 package fr.boniric.paymybuddy.web.service;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
-import fr.boniric.paymybuddy.api.repository.ContactRepository;
-import fr.boniric.paymybuddy.web.model.Contact;
 import fr.boniric.paymybuddy.web.model.TransactionDto;
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.repository.ContactProxy;
@@ -16,28 +14,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Data
 @Service
 public class TransactionService {
+    private String EMAILUSER_AUTHENTICATE;
     public Transaction RESULT_TRANSACTION;
     public List<String> LIST_TRANSACTION = new ArrayList<>();
     public List<TransactionDto> LIST_TRANSACTIONDTO = new ArrayList<>();
     public Boolean RELOADING = false;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    TransactionProxy transactionProxy;
-    private String EMAILUSER_AUTHENTICATE;
+    private TransactionProxy transactionProxy;
 
     @Autowired
     private ContactService contactService;
@@ -91,26 +83,21 @@ public class TransactionService {
         model.addAttribute("description", "Description"); // push description
         model.addAttribute("balance", balanceUser + " €"); // push balance user
 
-        LIST_TRANSACTION = listTransaction;
+        //    LIST_TRANSACTION = listTransaction;
         model.addAttribute("rows", listTransaction); // push list transaction
 
     }
 
     public String pushNewsTransferToRecapTransaction(Transaction transaction, Model model) {
-
-        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
-        int typePayment = transaction.getPaymentTypeId(); // type de payment
-        double amountTransaction = transaction.getTransactionAmount(); // montant
-        String description = transaction.getDescription(); // description
-
-        // control
-        return controlTypePayment(typePayment, transaction, model);
+        return controlTypePayment(transaction, model);
     }
 
-    public String controlTypePayment(int typePayment, Transaction transaction, Model model) {
-
+    public String controlTypePayment(Transaction transaction, Model model) {
+        int typePayment = transaction.getPaymentTypeId();
         User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
-        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
+        User userSelected = searchContact(transaction.getListContact());// get Object User Selected
+        transaction.setUserId(userPayer.getId()); // Set User Id into Transaction.userId
+
         double amountTransaction = transaction.getTransactionAmount();
         String selector = "";
 
@@ -158,7 +145,6 @@ public class TransactionService {
                 calculTransactionPushRecapTransaction(model, transaction);
             }
         }
-
         return selector;
     }
 
@@ -174,17 +160,13 @@ public class TransactionService {
         double amountTotalWithCommission = amountTransactionFinal + amountCommissionFinal;
 
         User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
-        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
-
-        double balanceUserPayer = userPayer.getBalance(); // get balance user authenticate
-        double balanceUserSelected = userSelected.getBalance(); // get balance user selected
-
-        Contact contact = contactService.findById(userPayer.getId());
+        User userSelected = searchContact(transaction.getListContact()); // get Object User Selected
 
         transaction.setTransactionAmount(amountTransactionFinal);
         transaction.setTransactionCommissionAmount(amountCommissionFinal);// Push amount commission in Object Transaction
         transaction.setTransactionTotalAmount(amountTotalWithCommission);
-        transaction.setContactId(contact.getContactId());
+        transaction.setUserId(userPayer.getId());
+        transaction.setUserReceiverId(userSelected.getId());
 
         // Push Forms recapTransaction
         model.addAttribute("status", "Please confirm your payment");
@@ -200,7 +182,7 @@ public class TransactionService {
 
     public void creditUserBeneficiary(Transaction transaction) {
         double amountTransactionFinal = transaction.getTransactionAmount(); // get amount credit
-        User userSelected = searchContact(transaction.getListEmail()); // get Object User Selected
+        User userSelected = searchContact(transaction.getListContact()); // get Object User Selected
         double balanceUserSelected = userSelected.getBalance(); // get balance user selected
 
         // Update Beneficiary
@@ -219,11 +201,9 @@ public class TransactionService {
             // Update Payer
             double balancePayerResult = balancePayer - amountTotalWithCommission;
             balancePayerResult = Math.round(balancePayerResult * 100.0) / 100.0;
-            userService.updateUser(userPayer.getId(),balancePayerResult);
+            userService.updateUser(userPayer.getId(), balancePayerResult);
             saveTransaction(transaction);
         }
-
-
     }
 
     public User searchContact(String contactSelected) {
@@ -243,9 +223,6 @@ public class TransactionService {
     }
 
     public void saveTransaction(Transaction transaction) {
-        User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE);
-        Contact contact = contactService.findById(userPayer.getId());
-        transaction.setContactId(contact.getContactId());
         transactionProxy.saveTransaction(transaction);
     }
 

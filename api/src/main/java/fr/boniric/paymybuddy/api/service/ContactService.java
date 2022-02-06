@@ -40,29 +40,52 @@ public class ContactService {
         return listContact;
     }
 
+    /**
+     * Get Contact with userId and buddyId
+     *
+     * @param userId,buddyId
+     * @return Contact
+     */
     public Contact getControlContact(int userId, int buddyId) {
         Contact resultContact = new Contact();
         Iterable<Contact> contactIterable = contactRepository.findAll();
-        for (Contact contact : contactIterable){
-            if (contact.getUsersId()==userId && contact.getBuddyId() == buddyId){
+        for (Contact contact : contactIterable) {
+            if (contact.getUsersId() == userId && contact.getBuddyId() == buddyId) {
                 resultContact = contact;
             }
         }
         return resultContact;
     }
 
+    /**
+     * Get Contact by userId
+     *
+     * @param userId
+     * @return
+     */
     public Optional<Contact> getContactByUserId(int userId) {
         return contactRepository.findById(userId);
     }
 
+    /**
+     * Get all contact
+     *
+     * @return Iterable Contact
+     */
     public Iterable<Contact> getAllContact() {
         return contactRepository.findAll();
     }
 
+    /**
+     * Save Contact with CRUD Method
+     */
     public void saveContact(Contact contact) {
         contactRepository.save(contact);
     }
 
+    /**
+     * Delete Contact with CRUD Method
+     */
     public void delete(Contact contact) {
         contactRepository.delete(contact);
     }

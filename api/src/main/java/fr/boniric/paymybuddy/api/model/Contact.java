@@ -21,7 +21,7 @@ public class Contact {
     @Column(name = "users_id")
     Integer usersId;
 
-    @Column(name = "buddy_id")
+    @Column(name = "users_received_id")
     Integer buddyId;
 
 }
