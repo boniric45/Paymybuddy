@@ -15,14 +15,14 @@
 	<title>Pay My Buddy - Registration</title>
 
 	<style>
+
 .content{
 	display: block;
 	margin-top: 25px;
 	margin-left: auto;
 	margin-right: auto;
-
-	  width: 800px;
-  	height: 720px;
+    width: 800px;
+  	height: 730px;
   	border: 3px solid  #ccc;
   	border-radius: 10px 10px 10px 10px;
 }
@@ -53,13 +53,7 @@
 	font-weight: 600;
 }
 
-.btn-primary{
-	font-family: Comic sans, sans-serif; 
-	font-size:14px;
-	font-weight: 600;
-	padding-left: 30px;
-	padding-right: 30px;
-}
+
 
 .form-group-email{
 display: inline-flex;
@@ -104,16 +98,13 @@ margin-bottom: 10px;
 
 .btn-submit{
 display: inline-flex;
-justify-content: center;
-padding-left: 300px;
+padding-left:280px;
 padding-right: 10px;}
 
 .btnsave{
 display: inline-flex;
-justify-content: center;
 margin-top:20px ;
 }
-
 	</style>
 
 </head>
@@ -206,22 +197,19 @@ margin-top:20px ;
 			<div class="form-group">
 				<input type="hidden" th:field="*{roles}" class="form-control" id="rolesInput">
 			</div>
-			
 
-
-	<div class="btn-submit">
+	<div class="btn-submit" >
 		<a name="submit" href="/login" type="submit" class="btn btn-primary">Login</a>
 	</div>
 
-	<div class="btnsave">
+	<div class="btnsave" >
 		<button type="submit" class="btn btn-primary">Save</button>
 	</div>
+
 		</form>
 	</div>
 
 </div>
 
-
 </body>
-
 </html>

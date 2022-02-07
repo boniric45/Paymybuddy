@@ -1,6 +1,7 @@
 package fr.boniric.paymybuddy.web.service;
 
 import fr.boniric.paymybuddy.api.model.Transaction;
+import fr.boniric.paymybuddy.web.config.ConstantConfig;
 import fr.boniric.paymybuddy.web.model.TransactionDto;
 import fr.boniric.paymybuddy.web.model.User;
 import fr.boniric.paymybuddy.web.repository.ContactProxy;
@@ -26,16 +27,16 @@ public class TransactionService {
     public Boolean RELOADING = false;
 
     @Autowired
-    private UserService userService;
+     UserService userService;
 
     @Autowired
-    private TransactionProxy transactionProxy;
+     TransactionProxy transactionProxy;
 
     @Autowired
-    private ContactService contactService;
+     ContactService contactService;
 
     @Autowired
-    private ContactProxy contactProxy;
+     ContactProxy contactProxy;
 
     public void pushNewLoginToTransfer(Model model) {
 
@@ -83,9 +84,8 @@ public class TransactionService {
         model.addAttribute("description", "Description"); // push description
         model.addAttribute("balance", balanceUser + " €"); // push balance user
 
-        //    LIST_TRANSACTION = listTransaction;
+        LIST_TRANSACTION = listTransaction;
         model.addAttribute("rows", listTransaction); // push list transaction
-
     }
 
     public String pushNewsTransferToRecapTransaction(Transaction transaction, Model model) {
@@ -93,55 +93,60 @@ public class TransactionService {
     }
 
     public String controlTypePayment(Transaction transaction, Model model) {
+        String selector = "";
         int typePayment = transaction.getPaymentTypeId();
         User userPayer = userService.getUserByEmail(EMAILUSER_AUTHENTICATE); // get User Payer with email authenticate
         User userSelected = searchContact(transaction.getListContact());// get Object User Selected
-        transaction.setUserId(userPayer.getId()); // Set User Id into Transaction.userId
-
         double amountTransaction = transaction.getTransactionAmount();
-        String selector = "";
+        double balancePayer = userPayer.getBalance();
 
         // Payment Type Account
         if (typePayment == 1) {
 
             // if the pay is identical to the selected user
             if (Objects.equals(userPayer.getId(), userSelected.getId())) {
-                selector = "/transfer";
+                selector = ConstantConfig.TRANSFER;
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Please use rib payment");
             }
             // if amount is <= 0
             else if (amountTransaction <= 0) {
-                selector = "/transfer";
+                selector = ConstantConfig.TRANSFER;
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Amount unauthorized");
             }
             // insufficient supply
-            else if (amountTransaction > userPayer.getBalance()) {
-                selector = "/transfer";
-                model.addAttribute("statut", "insufficient supply, Please use rib payment");
-            }
-            // payment
-            else {
-                selector = "/recapTransaction";
-                calculTransactionPushRecapTransaction(model, transaction);
+            else if (balancePayer < amountTransaction) {
+               selector = ConstantConfig.TRANSFER;
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
+                model.addAttribute("statut", "Insufficient supply, Please use rib payment");
+            } else {
+                RELOADING = false;
+                selector = ConstantConfig.RECAP_TRANSACTION;
+               calculTransactionPushRecapTransaction(model, transaction);
             }
         }
-
-        // Payment Type Rib
-        if (typePayment == 2) {
+        // Payment Rib
+        else if (typePayment == 2) {
 
             // if amount is <= 0
             if (amountTransaction <= 0) {
-                selector = "/transfer";
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Amount unauthorized");
-            } else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
-                selector = "/recapTransaction";
+                selector =ConstantConfig.TRANSFER;
+            }
+            else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
+                selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
                 RELOADING = true;
             }
-
             // payment
             else {
-                selector = "/recapTransaction";
+                selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
             }
         }

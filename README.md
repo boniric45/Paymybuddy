@@ -1,7 +1,9 @@
 # Paymybuddy
 
-La base de donnée PostgreSQl se nomme: paymybuddy (configurée dans application.properties) de l'api et du web
- 
+The PostgreSQL database is called: paymybuddy (configured in application.properties) from the api and the web
+
+Database Preparation :
+
 Script Sql
 
 CREATE TABLE public.Payment_type (
@@ -89,3 +91,15 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 INSERT INTO payment_type (payment_type_id,payment_type) VALUES ('1', 'account'),('2','rib');
+
+URL API : localhost:9002
+URL WEB : localhost:9003
+
+Run Api and Webapp
+Click on the link registration
+Enter the form and authenticate yourself 
+Click on the button "Add Connection" 
+Enter your mail and click on the button "Save Contact"
+To recharge your account, you must add your Mail in contact and make a payment by rib.
+
+

@@ -17,19 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class TransactionController {
 
-    private String EMAILUSER_AUTHENTICATE;
+    String EMAILUSER_AUTHENTICATE;
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private ContactService contactService;
+    ContactService contactService;
 
     @Autowired
-    private TransactionService transactionService;
+    TransactionService transactionService;
 
     @GetMapping("/transfer")
-    public String loginToTransfer(HttpServletRequest request, Model model) {
+    public String loginToTransfer(Model model) {
         transactionService.pushNewLoginToTransfer(model);
         System.out.println("pushNewLoginToTransfer Web Call");
         model.addAttribute("rows", transactionService.LIST_TRANSACTIONDTO);
@@ -38,8 +38,7 @@ public class TransactionController {
 
     @PostMapping(value = "/transfer")
     public String transferToRecapTransaction(@ModelAttribute("transaction") Transaction transaction, Model model) {
-        transactionService.pushNewLoginToTransfer(model);
-        System.out.println("pushNewsTransferToRecapTransaction Web Call > ");
+        System.out.println("pushNewsTransferToRecapTransaction Web Call ");
         return transactionService.pushNewsTransferToRecapTransaction(transaction, model); // if control ok return recapTransaction else return transfer
     }
 
@@ -56,6 +55,7 @@ public class TransactionController {
             transactionService.creditUserBeneficiary(transaction); // Credit User
             transactionService.debitPayer(transaction); // Debit User Payer
         }
+
         transactionService.pushNewLoginToTransfer(model);
         model.addAttribute("rows", transactionService.LIST_TRANSACTIONDTO);
         return "/transfer";

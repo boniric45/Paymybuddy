@@ -9,15 +9,15 @@ import java.util.Date;
 @Setter
 public class Transaction {
 
-    private Integer transactionId;
-    private int paymentTypeId;
-    private Integer userId;
-    private Integer userReceiverId;
-    private Date date = new Date();
-    private double transactionAmount;
-    private double transactionCommissionAmount;
-    private double transactionTotalAmount;
-    private String listContact;
-    private String description;
+     Integer transactionId;
+     int paymentTypeId;
+     Integer userId;
+     Integer userReceiverId;
+     Date date = new Date();
+     double transactionAmount;
+     double transactionCommissionAmount;
+     double transactionTotalAmount;
+     String listContact;
+     String description;
 
 }

@@ -71,12 +71,11 @@ public class UserController {
      */
     @PutMapping("/updateBalance/{id}/{amountTransaction}")
     public void updateUser(@PathVariable("id") Integer id, @PathVariable("amountTransaction") double amountTransaction) {
+        if (id != null && amountTransaction >=0) {
         Iterable<User> userId = userService.getUserById(id);
-        if (userId != null) {
             for (User userIT : userId) {
                 userIT.setBalance(amountTransaction);
-                System.out.println(userIT);
-                userService.saveUser(userIT);
+                    userService.saveUser(userIT);
             }
         }
     }

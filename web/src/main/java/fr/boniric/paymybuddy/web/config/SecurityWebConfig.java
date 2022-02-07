@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.sql.DataSource;
 
@@ -53,8 +54,9 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/contact/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/contact").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/contact/all").permitAll()
-                .antMatchers(HttpMethod.GET, "/transfer/*").authenticated()
-                .antMatchers(HttpMethod.GET, "recapRegister").permitAll()
+                .antMatchers(HttpMethod.GET, "/transfer").authenticated()
+                .antMatchers(HttpMethod.POST, "/transfer").authenticated()
+                .antMatchers(HttpMethod.GET, "/recapRegister").permitAll()
                 .antMatchers(HttpMethod.GET, "/username").authenticated()
                 .antMatchers(HttpMethod.GET, "/addconnection").authenticated()
                 .antMatchers(HttpMethod.POST, "/addconnection").authenticated()
@@ -69,11 +71,10 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")//champ formulaire
                 .passwordParameter("password")
                 .loginPage("/login").permitAll() // forms custom login
-                .failureUrl("/bad")// if ko bad
+                       .failureUrl("/bad")// if ko bad
                 .defaultSuccessUrl("/transfer")// if ok transfer
                 .and()
-                .csrf().disable();//Sécurité
-
+                .logout();
     }
 
     //Authorize ressources
@@ -90,9 +91,9 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**").allowedMethods("*");
-//    }
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedMethods("*");
+    }
 
 
 }
