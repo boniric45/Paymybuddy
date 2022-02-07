@@ -9,7 +9,8 @@
 ![Modele_Physique](ModeleBDD.png)
 
 <h3>Script Sql</h3>
-https://github.com/boniric45/Paymybuddy/Script.sql
+https://github.com/boniric45/Paymybuddy/blob/master/Script.sql
+
 
 <h3>Required</h3>
 
