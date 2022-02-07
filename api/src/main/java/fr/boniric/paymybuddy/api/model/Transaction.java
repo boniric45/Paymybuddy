@@ -23,7 +23,7 @@ public class Transaction {
     private Integer transactionId;
 
     @Column(name = "payment_type_id")
-    private int paymentTypeId;
+    private Integer paymentTypeId;
 
     @Column(name = "users_id", nullable = false)
     private Integer userId;
