@@ -2,11 +2,11 @@
 
 <h3>UML Diagram</h3>
 
-![Diagram UML](https://github.com/boniric45/Paymybuddy/UML.png)
+![UML](UML.png)
 
 <h3>Model Database (SQL)</h3>
 
-![Model BDD](https://github.com/boniric45/Paymybuddy/ModeleBDD.png)
+![Modele_Physique](ModeleBDD.png)
 
 <h3>Script Sql</h3>
 https://github.com/boniric45/Paymybuddy/Script.sql
