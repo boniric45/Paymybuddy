@@ -1,8 +1,6 @@
 package fr.boniric.paymybuddy.api.repository;
 
 import fr.boniric.paymybuddy.api.model.PaymentType;
-import fr.boniric.paymybuddy.api.service.PaymentService;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +15,9 @@ public class TestPaymentRepository {
     PaymentRepository paymentRepository;
 
     @Test
-    public void testTypePayment(){
-
+    public void testTypePayment() {
         List<PaymentType> paymentTypeList = (List<PaymentType>) paymentRepository.findAll();
-        Assertions.assertEquals(2,paymentTypeList.size());
+        Assertions.assertEquals(2, paymentTypeList.size());
     }
 
 }

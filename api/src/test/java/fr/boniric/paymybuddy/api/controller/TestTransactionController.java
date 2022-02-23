@@ -56,7 +56,7 @@ public class TestTransactionController {
         contactService.saveContact(contact);
 
         Contact contactResult = contactService.getControlContact(user1Id, user2Id);
-        Transaction transaction = new Transaction(1, 2, user1Id, user2Id,  date, 10.20, 2.0, 12.20, "test@test.fr", "payment habbits");
+        Transaction transaction = new Transaction(1, 2, user1Id, user2Id, date, 10.20, 2.0, 12.20, "test@test.fr", "payment habbits");
         transactionService.saveTransaction(transaction);
 
         //  Then Save Transaction
