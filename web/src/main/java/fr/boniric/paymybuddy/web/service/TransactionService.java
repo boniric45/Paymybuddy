@@ -24,7 +24,7 @@ public class TransactionService {
     public Transaction RESULT_TRANSACTION;
     public List<String> LIST_TRANSACTION = new ArrayList<>();
     public List<TransactionDto> LIST_TRANSACTIONDTO = new ArrayList<>();
-    public Boolean RELOADING = false;
+    public int TYPEPAYMENT_SELECTOR = 0;
 
     @Autowired
      UserService userService;
@@ -124,7 +124,7 @@ public class TransactionService {
                 model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Insufficient supply, Please use rib payment");
             } else {
-                RELOADING = false;
+                TYPEPAYMENT_SELECTOR = 1;
                 selector = ConstantConfig.RECAP_TRANSACTION;
                calculTransactionPushRecapTransaction(model, transaction);
             }
@@ -142,13 +142,31 @@ public class TransactionService {
             else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
                 selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
-                RELOADING = true;
+                TYPEPAYMENT_SELECTOR = 2;
             }
             // payment
             else {
                 selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
             }
+        } else if (typePayment == 3){
+            // if amount is <= 0
+            if (amountTransaction <= 0) {
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
+                model.addAttribute("statut", "Amount unauthorized");
+                selector =ConstantConfig.TRANSFER;
+            } else if (Objects.equals(userPayer.getId(), userSelected.getId())){
+                selector = ConstantConfig.RECAP_TRANSACTION;
+                calculTransactionPushRecapTransaction(model, transaction);
+                TYPEPAYMENT_SELECTOR = 3;
+            } else if (!Objects.equals(userPayer.getId(), userSelected.getId())){
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
+                model.addAttribute("statut", "Please select your name in the list");
+                selector =ConstantConfig.TRANSFER;
+            }
+
         }
         return selector;
     }

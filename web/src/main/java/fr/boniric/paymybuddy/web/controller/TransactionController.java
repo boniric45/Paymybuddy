@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class TransactionController {
 
@@ -47,13 +45,18 @@ public class TransactionController {
         //Click Pay
         Transaction transaction = transactionService.RESULT_TRANSACTION; // get Transaction
 
-        // Reloading User
-        if (transactionService.RELOADING) {
-            transactionService.creditUserBeneficiary(transaction); // Credit User without débit
-            transactionService.saveTransaction(transaction); // Save transaction
-        } else {
+        // Selector Operation Payment
+        if (transactionService.TYPEPAYMENT_SELECTOR == 1) {
             transactionService.creditUserBeneficiary(transaction); // Credit User
             transactionService.debitPayer(transaction); // Debit User Payer
+
+        } else if (transactionService.TYPEPAYMENT_SELECTOR == 2) {
+            transactionService.creditUserBeneficiary(transaction); // Credit User without débit
+            transactionService.saveTransaction(transaction); // Save transaction
+
+        } else if (transactionService.TYPEPAYMENT_SELECTOR == 3) {
+            transactionService.debitPayer(transaction); // Debit User Payer
+            transactionService.saveTransaction(transaction); // Save transaction
         }
 
         transactionService.pushNewLoginToTransfer(model);

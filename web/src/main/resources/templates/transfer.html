@@ -193,6 +193,24 @@ justify-content:left;
 margin-left:30px;
 }
 
+label{
+margin-left:2px;
+}
+
+.btnAccount{
+display:inline-flex;
+}
+
+.btnRib{
+display:inline-flex;
+margin-left:5px;
+}
+
+.btnCreditMe{
+display:inline-flex;
+margin-left:20px;
+}
+
 .page-item{
 	font-family: AppleGothic, sans-serif;
 	font-size:16px;
@@ -329,12 +347,17 @@ thead tr{
 <div class="box-send-money">
     <form action="/transfer" method="post" th:action="@{/transfer}" th:object="${transaction}">
 
-        <div class="btnradio">
-            <div class="btnAccount"><input type="radio" th:field="*{paymentTypeId}" value="1" checked="checked"
-                                           required/> Account
-            </div>
-            <div class="btnRib"><input type="radio" th:field="*{paymentTypeId}" value="2"/> Rib</div>
+        <div class="btnradio" >
+            <div class="btnAccount"><input type="radio" id="btnAccount" th:field="*{paymentTypeId}" value="1" checked="checked" required/>
+                <label for="btnAccount">Account</label></div>
+
+            <div class="btnRib"><input type="radio" id="btnRib" th:field="*{paymentTypeId}" value="2"/>
+                <label for="btnRib">Rib</label></div>
+
+            <div class="btnCreditMe" ><input type="radio" id="btnCreditMe"  onClick="form-description.disabled = true;"  th:field="*{paymentTypeId}" value="3"/>
+                <label for="btnCreditMe">Credit My Account</label></div>
         </div>
+
 
         <select required class="form-select form-select-lg mb-3" th:field="*{listContact}">
             <option selected value="">Select A Connection:</option>
@@ -376,6 +399,7 @@ thead tr{
         </table>
     </div>
 </section>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>

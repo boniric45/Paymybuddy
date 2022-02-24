@@ -82,4 +82,4 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-INSERT INTO payment_type (payment_type_id,payment_type) VALUES ('1', 'account'),('2','rib');
+INSERT INTO payment_type (payment_type_id,payment_type) VALUES ('1', 'account'),('2','rib'),('3','credit my account');
