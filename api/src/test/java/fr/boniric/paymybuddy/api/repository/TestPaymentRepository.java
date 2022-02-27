@@ -17,7 +17,7 @@ public class TestPaymentRepository {
     @Test
     public void testTypePayment() {
         List<PaymentType> paymentTypeList = (List<PaymentType>) paymentRepository.findAll();
-        Assertions.assertEquals(2, paymentTypeList.size());
+        Assertions.assertEquals(3, paymentTypeList.size());
     }
 
 }

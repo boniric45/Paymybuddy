@@ -29,7 +29,7 @@ public class ContactController {
      *
      * @return List
      */
-    @GetMapping("/listcontact/{userAuthId}")
+    @GetMapping("/contact/{userAuthId}/list")
     public List<String> readContact(@PathVariable("userAuthId") int userId, Model model) {
         model.addAttribute("listContact", contactService.getListContact(userId));
         return contactService.getListContact(userId);
@@ -58,7 +58,7 @@ public class ContactController {
     /**
      * delete Contact by Id
      */
-    @DeleteMapping("/deleteContact/{id}")
+    @DeleteMapping("/contact/{id}")
     public void deleteContactById(@PathVariable("id") int id) {
         Contact contact = contactService.getContactByUserId(id).get();
         contactService.delete(contact);

@@ -20,23 +20,19 @@ import java.util.*;
 @Data
 @Service
 public class TransactionService {
-    private String EMAILUSER_AUTHENTICATE;
     public Transaction RESULT_TRANSACTION;
     public List<String> LIST_TRANSACTION = new ArrayList<>();
     public List<TransactionDto> LIST_TRANSACTIONDTO = new ArrayList<>();
     public int TYPEPAYMENT_SELECTOR = 0;
-
     @Autowired
-     UserService userService;
-
+    UserService userService;
     @Autowired
-     TransactionProxy transactionProxy;
-
+    TransactionProxy transactionProxy;
     @Autowired
-     ContactService contactService;
-
+    ContactService contactService;
     @Autowired
-     ContactProxy contactProxy;
+    ContactProxy contactProxy;
+    private String EMAILUSER_AUTHENTICATE;
 
     public void pushNewLoginToTransfer(Model model) {
 
@@ -68,6 +64,7 @@ public class TransactionService {
         String[] rows;
         JSONArray jaTransaction = new JSONArray(strListTransaction);
 
+        // List Transaction
         for (Object obj : jaTransaction) {
             CDL.rowToString(jaTransaction);
             String row = obj.toString();
@@ -119,14 +116,14 @@ public class TransactionService {
             }
             // insufficient supply
             else if (balancePayer < amountTransaction) {
-               selector = ConstantConfig.TRANSFER;
+                selector = ConstantConfig.TRANSFER;
                 pushNewLoginToTransfer(model);
                 model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Insufficient supply, Please use rib payment");
             } else {
                 TYPEPAYMENT_SELECTOR = 1;
                 selector = ConstantConfig.RECAP_TRANSACTION;
-               calculTransactionPushRecapTransaction(model, transaction);
+                calculTransactionPushRecapTransaction(model, transaction);
             }
         }
         // Payment Rib
@@ -137,36 +134,55 @@ public class TransactionService {
                 pushNewLoginToTransfer(model);
                 model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Amount unauthorized");
-                selector =ConstantConfig.TRANSFER;
+                selector = ConstantConfig.TRANSFER;
             }
+            // if payer == user selected
             else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
                 selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
                 TYPEPAYMENT_SELECTOR = 2;
             }
-            // payment
-            else {
+
+            // if payer != user selected
+            else if (!Objects.equals(userPayer.getId(), userSelected.getId())) {
                 selector = ConstantConfig.RECAP_TRANSACTION;
                 calculTransactionPushRecapTransaction(model, transaction);
+                TYPEPAYMENT_SELECTOR = 2;
             }
-        } else if (typePayment == 3){
+
+            // Credit my account
+        } else if (typePayment == 3) {
+
             // if amount is <= 0
             if (amountTransaction <= 0) {
                 pushNewLoginToTransfer(model);
                 model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Amount unauthorized");
-                selector =ConstantConfig.TRANSFER;
-            } else if (Objects.equals(userPayer.getId(), userSelected.getId())){
-                selector = ConstantConfig.RECAP_TRANSACTION;
-                calculTransactionPushRecapTransaction(model, transaction);
-                TYPEPAYMENT_SELECTOR = 3;
-            } else if (!Objects.equals(userPayer.getId(), userSelected.getId())){
+                selector = ConstantConfig.TRANSFER;
+            }
+
+            // if userPayer is different than the user selected
+            else if (!Objects.equals(userPayer.getId(), userSelected.getId())) {
                 pushNewLoginToTransfer(model);
                 model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
                 model.addAttribute("statut", "Please select your name in the list");
-                selector =ConstantConfig.TRANSFER;
+                selector = ConstantConfig.TRANSFER;
             }
 
+            // if the amount of the transaction is greater than the account
+            else if (balancePayer < amountTransaction) {
+                pushNewLoginToTransfer(model);
+                model.addAttribute("rows", LIST_TRANSACTIONDTO); // push list transaction
+                model.addAttribute("statut", "Insufficient supply ");
+                selector = ConstantConfig.TRANSFER;
+            }
+
+            // if userPayer == userSelected
+            else if (Objects.equals(userPayer.getId(), userSelected.getId())) {
+                selector = ConstantConfig.RECAP_TRANSACTION;
+                calculTransactionPushRecapTransaction(model, transaction);
+                TYPEPAYMENT_SELECTOR = 3;
+            }
         }
         return selector;
     }

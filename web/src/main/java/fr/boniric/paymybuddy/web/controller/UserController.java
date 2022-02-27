@@ -1,6 +1,8 @@
 package fr.boniric.paymybuddy.web.controller;
 
+import fr.boniric.paymybuddy.web.model.Contact;
 import fr.boniric.paymybuddy.web.model.User;
+import fr.boniric.paymybuddy.web.repository.ContactProxy;
 import fr.boniric.paymybuddy.web.service.ContactService;
 import fr.boniric.paymybuddy.web.service.UserService;
 import lombok.Data;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private ContactService contactService;
+
+    @Autowired
+    private ContactProxy contactProxy;
 
     @GetMapping("/")
     public String home() {
@@ -53,6 +58,12 @@ public class UserController {
 
         //save user
         userService.saveUser(user);
+
+        // Save contact
+        User resultUser = userService.getUserByEmail(user.getEmail());
+        Contact contact = new Contact(resultUser.getId(), resultUser.getId());
+        contactProxy.saveContact(contact);
+
         return new ModelAndView("redirect:/recapRegister");
     }
 

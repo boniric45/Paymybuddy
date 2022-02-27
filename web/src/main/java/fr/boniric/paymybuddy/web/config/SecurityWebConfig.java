@@ -71,7 +71,7 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")//champ formulaire
                 .passwordParameter("password")
                 .loginPage("/login").permitAll() // forms custom login
-                       .failureUrl("/bad")// if ko bad
+                .failureUrl("/bad")// if ko bad
                 .defaultSuccessUrl("/transfer")// if ok transfer
                 .and()
                 .logout();

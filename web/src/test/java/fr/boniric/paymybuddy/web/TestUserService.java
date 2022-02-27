@@ -25,7 +25,7 @@ public class TestUserService {
         user.setAddress("15 th Street");
         user.setZip("04507");
         user.setCity("Boston");
-        user.setPhone(17043522);
+        user.setPhone("17043522");
         user.setEmail("test@test.fr");
         user.setBalance(10);
         user.setIban("IBAN");
@@ -65,6 +65,5 @@ public class TestUserService {
         Assertions.assertEquals(50.25, userResult.getBalance());
         userService.updateUser(userResult.getId(), 10);
     }
-
 
 }

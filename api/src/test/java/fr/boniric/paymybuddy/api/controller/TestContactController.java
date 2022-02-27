@@ -102,7 +102,7 @@ public class TestContactController {
 
         // Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/listcontact/{id}", contactResult.getContactId())
+                        .get("/contact/{id}/list", contactResult.getContactId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -176,7 +176,7 @@ public class TestContactController {
 
         Contact contactTest = contactService.getControlContact(user1Id, user2Id);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteContact/{id}", contactTest.getContactId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/contact/{id}", contactTest.getContactId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contactId").doesNotExist());
 

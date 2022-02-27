@@ -66,7 +66,6 @@ public class UserProxy {
         String getUserURL = baseApiUrl + "/updateBalance/" + userId + "/" + amountTransaction;
 
         RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<User> request = new HttpEntity<User>(user);
         ResponseEntity<User> response = restTemplate.exchange(
                 getUserURL,
                 HttpMethod.PUT,

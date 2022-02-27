@@ -144,8 +144,8 @@ margin-top:20px ;
 			<div class="form-group-phone">
 				<label class="labelPhone" for="phoneInput">Phone</label>
 				<input
-						type="text" th:field="*{phone}" class="form-control" id="phoneInput"
-						aria-describedby="phoneHelp" placeholder="Enter the phone" required>
+						type="number" th:field="*{phone}" class="form-control" id="phoneInput"
+						aria-describedby="mailHelp" placeholder="Enter the phone" required>
 			</div>
 
 			<div class="form-group">
@@ -169,7 +169,7 @@ margin-top:20px ;
 			<div class="form-group-zip">
 				<label class="labelZip" for="zipInput">Zip</label>
 				<input
-						type="text" th:field="*{zip}" class="form-control" id="zipInput"
+						type="number" th:field="*{zip}" class="form-control" id="zipInput"
 						placeholder="Enter the zip" required>
 			</div>
 
@@ -199,11 +199,11 @@ margin-top:20px ;
 			</div>
 
 	<div class="btn-submit" >
-		<a name="submit" href="/login" type="submit" class="btn btn-primary">Login</a>
+		<a name="submit" href="/login" type="submit" class="btn btn-danger">Cancel</a>
 	</div>
 
 	<div class="btnsave" >
-		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="submit" class="btn btn-success">Save</button>
 	</div>
 
 		</form>

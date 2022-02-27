@@ -148,7 +148,7 @@ public class TestUserController {
 
         User userResult = userService.getUserByEmail("test@test.fr").get();
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteUser/{id}", userResult.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/{id}", userResult.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").doesNotExist());
     }

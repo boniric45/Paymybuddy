@@ -71,11 +71,11 @@ public class UserController {
      */
     @PutMapping("/updateBalance/{id}/{amountTransaction}")
     public void updateUser(@PathVariable("id") Integer id, @PathVariable("amountTransaction") double amountTransaction) {
-        if (id != null && amountTransaction >=0) {
-        Iterable<User> userId = userService.getUserById(id);
+        if (id != null && amountTransaction >= 0) {
+            Iterable<User> userId = userService.getUserById(id);
             for (User userIT : userId) {
                 userIT.setBalance(amountTransaction);
-                    userService.saveUser(userIT);
+                userService.saveUser(userIT);
             }
         }
     }
@@ -85,7 +85,7 @@ public class UserController {
      *
      * @param id The id of the user
      */
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable("id") long id) {
         userService.deleteUserById(id);
     }

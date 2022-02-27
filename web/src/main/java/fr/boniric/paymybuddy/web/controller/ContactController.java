@@ -29,7 +29,7 @@ public class ContactController {
     }
 
     @GetMapping("/contact/{id}")
-    public Contact getContactById(@PathVariable("id") int userId){
+    public Contact getContactById(@PathVariable("id") int userId) {
         return contactService.findById(userId);
     }
 

@@ -36,7 +36,7 @@ public class ContactProxy {
 
     public String listContact(int userAuthId) {
         String baseApiUrl = props.getApiURL();
-        String getContactURL = baseApiUrl + "/listcontact/" + userAuthId;
+        String getContactURL = baseApiUrl + "/contact/" + userAuthId + "/list";
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(String.valueOf(userAuthId));
         ResponseEntity<String> response = restTemplate.exchange(

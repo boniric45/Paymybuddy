@@ -29,7 +29,7 @@ public class ContactService {
 
         //récupération id if usercontact is présent
         if (newBuddy == null) {
-            status = "Contact unknow";
+            status = "Contact unknown";
         } else {
 
             User userAuthenticated = userService.getUserByEmail(userEmailAuthenticate);
@@ -45,7 +45,7 @@ public class ContactService {
                 status = "Contact saved";
             } else {
                 status = "";
-                status = "Contact is allready present";
+                status = "Contact is already present";
             }
         }
         return status;

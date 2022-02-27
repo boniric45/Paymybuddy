@@ -56,7 +56,6 @@ public class TransactionController {
 
         } else if (transactionService.TYPEPAYMENT_SELECTOR == 3) {
             transactionService.debitPayer(transaction); // Debit User Payer
-            transactionService.saveTransaction(transaction); // Save transaction
         }
 
         transactionService.pushNewLoginToTransfer(model);

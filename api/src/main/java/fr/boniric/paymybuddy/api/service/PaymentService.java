@@ -13,6 +13,7 @@ public class PaymentService {
 
     /**
      * Get All Payment Type
+     *
      * @return Iterable<PaymentType>
      */
     public Iterable<PaymentType> getPaymentTypeAll() {

@@ -1,6 +1,7 @@
 package fr.boniric.paymybuddy.web.service;
 
 import fr.boniric.paymybuddy.web.model.User;
+import fr.boniric.paymybuddy.web.repository.ContactProxy;
 import fr.boniric.paymybuddy.web.repository.UserProxy;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UserProxy userProxy;
+
+    @Autowired
+    private ContactProxy contactProxy;
 
     public User getUserByEmail(String email) {
         return userProxy.getUserByEmail(email);
