@@ -46,7 +46,7 @@ public class UserService {
 
     /**
      * Delete User with CRUD Method
-     * <p>
+     *
      * Use for Test
      */
     public void delete(User user) {
@@ -62,7 +62,7 @@ public class UserService {
 
     /**
      * Delete User by user id with CRUD Method
-     * <p>
+     *
      * Use for Test
      */
     public void deleteUserById(long idUser) {

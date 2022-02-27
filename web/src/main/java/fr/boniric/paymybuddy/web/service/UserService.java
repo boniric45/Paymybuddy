@@ -16,9 +16,6 @@ public class UserService {
     @Autowired
     private UserProxy userProxy;
 
-    @Autowired
-    private ContactProxy contactProxy;
-
     public User getUserByEmail(String email) {
         return userProxy.getUserByEmail(email);
     }

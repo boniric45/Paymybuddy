@@ -136,7 +136,7 @@
     <div class="auth">
         <p data-th-text="'Authenticated as : ' + ${userEmail}"></p>
     </div>
-    <form method="post" th:action="@{/addconnection}" th:object="${user}">
+    <form method="post" th:action="@{/connection}" th:object="${user}">
 
         <div class="form-group">
             <input type="email" th:field="*{email}" class="form-control"  id="contactId"

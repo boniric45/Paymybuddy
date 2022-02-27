@@ -40,7 +40,7 @@ public class TransactionController {
         return transactionService.pushNewsTransferToRecapTransaction(transaction, model); // if control ok return recapTransaction else return transfer
     }
 
-    @PostMapping(value = "/recapTransaction", params = "action=Pay")
+    @PostMapping(value = "/transaction", params = "action=Pay") // TODO transaction
     public String recapTransactionPay(Model model) {
         //Click Pay
         Transaction transaction = transactionService.RESULT_TRANSACTION; // get Transaction
@@ -63,7 +63,7 @@ public class TransactionController {
         return "/transfer";
     }
 
-    @PostMapping(value = "/recapTransaction", params = "action=Cancel")
+    @PostMapping(value = "/transaction", params = "action=Cancel") // Todo transaction
     public String recapTransactionCancel(Model model) {
         // click Cancel User
         transactionService.pushNewLoginToTransfer(model);

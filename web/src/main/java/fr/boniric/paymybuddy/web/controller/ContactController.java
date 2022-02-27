@@ -18,14 +18,14 @@ public class ContactController {
     @Autowired
     ContactService contactService;
 
-    @GetMapping("/addconnection")
+    @GetMapping("/connection")
     public String addConnection(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userAuthenticate = auth.getName();
         model.addAttribute("userEmail", userAuthenticate); // push Email user authenticate in forms addconnection
         User user = new User();
         model.addAttribute("user", user); // push Email contact in forms addconnection
-        return "/addconnection";
+        return "/connection";
     }
 
     @GetMapping("/contact/{id}")
@@ -33,11 +33,11 @@ public class ContactController {
         return contactService.findById(userId);
     }
 
-    @PostMapping("/addconnection")
+    @PostMapping("/connection")
     public String addConnectionPost(User newUser, Model model) {
         String status = contactService.addContact(newUser, model);
         model.addAttribute("status", status);
-        return "/addconnection";
+        return "/connection";
     }
 
 

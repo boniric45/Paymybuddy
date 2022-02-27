@@ -64,7 +64,7 @@ public class UserController {
         Contact contact = new Contact(resultUser.getId(), resultUser.getId());
         contactProxy.saveContact(contact);
 
-        return new ModelAndView("redirect:/recapRegister");
+        return new ModelAndView("redirect:/register");
     }
 
     @GetMapping("/bad")
@@ -72,12 +72,12 @@ public class UserController {
         return "/bad";
     }
 
-    @GetMapping("/recapRegister")
+    @GetMapping("/register")
     public String recapRegister(Model model) {
 
         // Data Saved
         model.addAttribute("varInfo", "Your registration has been registered an email link will be sent to you");
-        return "/recapRegister";
+        return "/register";
     }
 
     @GetMapping("/users/{id}")

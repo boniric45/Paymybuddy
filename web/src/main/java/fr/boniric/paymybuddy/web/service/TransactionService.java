@@ -26,12 +26,16 @@ public class TransactionService {
     public int TYPEPAYMENT_SELECTOR = 0;
     @Autowired
     UserService userService;
+
     @Autowired
     TransactionProxy transactionProxy;
+
     @Autowired
     ContactService contactService;
+
     @Autowired
     ContactProxy contactProxy;
+
     private String EMAILUSER_AUTHENTICATE;
 
     public void pushNewLoginToTransfer(Model model) {
